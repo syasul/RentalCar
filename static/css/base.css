@@ -1,0 +1,19 @@
+.navbar-brand {
+    color: black !important;
+    font-weight: 600;
+    background-color: transparent;
+    outline: none;
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-item .nav-link,
+.navbar-nav .nav-item:focus .nav-link {
+    background-color: transparent !important;
+    /* Set background jadi transparan */
+    color: black;
+    /* Pertahankan warna teks yang ada */
+    outline: none;
+    font-weight: 400;
+    /* Hilangkan outline default */
+}

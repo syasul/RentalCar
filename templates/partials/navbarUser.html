@@ -5,10 +5,10 @@
     </button>
 
     <div style="padding: 5px;" class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-      <a class="navbar-brand col-lg-3 me-0" href="#">RENTCAR</a>
+      <a class="navbar-brand col-lg-3 me-0 fw-bold" href="{% url 'home' %}">RENTCAR</a>
       <ul class="navbar-nav col-lg-9 justify-content-lg-end" >
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'mobil:listCar' %}">List Car</a>
