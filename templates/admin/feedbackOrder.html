@@ -1,0 +1,60 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+<link rel="stylesheet" href="{% static 'css/admin/feedbackOrder.css' %}">
+{% endblock headers %}
+
+{% block contents %}
+    {% include '../partials/navbarAdmin.html' %}
+    <div class="container">
+        <!-- Data -->
+        <div class="mt-2 d-flex justify-content-around">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-center" scope="col">Name Peminjam</th>
+                        <th class="text-center" scope="col">Nama Mobil</th>
+                        <th class="text-center" scope="col">Rating</th>
+                        <th class="text-center" scope="col">Testimoni</th>
+                        <th class="text-center" scope="col">Pembayaran Denda</th>
+                        <th class="text-center" scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for testimonial in ratings %}
+                    <tr>
+                        <td class="text-center">{{ testimonial.id_user.username }}</td>
+                        <td class="text-center">{{ testimonial.id_mobil.name }}</td>
+                        <td class="text-center rating">
+                            {% with ''|center:testimonial.rating as range %}
+                            {% for i in range %}
+                                <label class="text-warning starate">★</label>
+                            {% endfor %}
+                            {% endwith %}
+                            
+                        </td>
+                        <td class="text-center">{{ testimonial.contentTestimonial }}</td>
+                        <td class="text-center">
+                            {% if testimonial.id_return_order.photo_payment_fine %}
+                            <img class="rounded" src="{{ testimonial.id_return_order.photo_payment_fine.url }}" alt="Product Image" style="max-width: 100px;">
+                        {% else %}
+                            <span>No Image</span>
+                        {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <form action="{% url 'pesanan:updateStatusFeedbackOrder' id_order=testimonial.id %}" method="POST">
+                                {% csrf_token %}
+                                <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
+                                    <option value="Belum Terkonfirmasi" {% if testimonial.status == 'Belum Terkonfirmasi' %} selected {% endif %}>Belum Terkonfirmasi</option>
+                                    <option value="Terkonfirmasi" {% if testimonial.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
+                                    <option value="Dikirim" {% if testimonial.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
+                                </select>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock contents %}

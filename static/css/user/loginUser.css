@@ -1,0 +1,42 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../img/bg.png);
+}
+
+.form-back {
+    background: white;
+    margin-top: 7rem;
+    width: 23rem;
+    height: 25rem;
+    margin-left: 30rem;
+    border-radius: 5%;
+}
+
+
+
+.form-signin {
+    max-width: 330px;
+    padding-top: 1rem;
+
+
+}
+
+.form-signin .form-floating:focus-within {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

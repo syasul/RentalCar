@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Thirteenth navbar example">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div style="padding: 5px;" class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+      <a class="navbar-brand col-lg-3 me-0" href="#">RENTCAR</a>
+      <ul class="navbar-nav col-lg-9 justify-content-lg-end" >
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'mobil:listCar' %}">List Car</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li>
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Hi, User
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="{% url 'pesanan:MyOrder' %}">Pesanan Saya</a></li>
+            <li><a class="dropdown-item bg-danger" href="{% url 'user:logout' %}">logout</a></li>
+          </ul>
+        </li>
+        {% else %}
+        <a href="{% url 'user:loginUser' %}">
+          <button class="btn btn-primary" type="button">Login</button>
+        </a>
+        {% endif %}
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>

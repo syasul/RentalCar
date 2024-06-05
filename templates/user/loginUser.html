@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+<link rel="stylesheet" href="{% static 'css/user/loginUser.css' %}">
+{% endblock headers %}
+
+{% block contents %}
+<div class="form-back text-center">
+    <main class="form-signin w-100 m-auto">
+      <form method="POST" action="{% url 'user:loginUser' %}">
+        {% csrf_token %}
+        <h1 class="h3 mb-3 fw-normal text-center">Login</h1>
+        <hr>
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="email" name="email">
+          <label for="floatingInput">Email</label>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="password">
+          <label for="floatingPassword">Password</label>
+        </div>
+        <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Login</button>
+        <hr class="my-4">
+        <!-- <button class="btn btn-primary" type="submit">Login</button> -->
+        <small class="mt-5 mb-3 text-body-secondary">don't have an account? please <a href="{% url 'user:registerUser' %}"> Register</a></small>
+      </form>
+    </main>
+    </div>
+{% endblock contents %}
+    

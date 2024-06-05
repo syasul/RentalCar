@@ -1,0 +1,223 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+    
+{% endblock headers %}
+
+{% block contents %}
+    {% include '../partials/navbarAdmin.html' %}
+    <div class="container">
+    <div class="d-flex mt-5 justify-content-between">
+        <form class="d-flex" action="" method="GET">
+            <input class="form-control shadow-none me-2" type="search" placeholder="Search" aria-label="Search" name="q" value="{{ request.GET.q }}">
+            <button class="btn btn-primary shadow-none" type="submit"><i class="fa-solid fa-search"></i></button>
+        </form>
+        <button type="button" class="btn btn-success mb-2 shadow-none" data-bs-toggle="modal" data-bs-target="#addProductModal"><i class="fa-solid fa-plus"></i>     Tambah Produk</button>
+    </div>
+    <!-- Data -->
+    <div class="mt-2 d-flex justify-content-around">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th class="text-center" scope="col">Name</th>
+            <th class="text-center" scope="col" >Foto Mobil</th>
+            <th class="text-center" scope="col">Stock</th>
+            <th class="text-center" scope="col">Type of Car</th>
+            <th class="text-center" scope="col">Description</th>
+            <th class="text-center" scope="col">transmission</th>
+            <th class="text-center" scope="col">Seat</th>
+            <th class="text-center" scope="col">Price</th>
+            <th class="text-center" scope="col">Action</th>
+          </tr>
+          </thead>
+          <tbody>
+
+            
+            
+                {% for mobil in mobils %}
+                    <tr>
+                        <td class="text-center">{{mobil.name}}</td>
+                        <td class="text-center"><img class="rounded" src="{{ mobil.image1.url }}" alt="Product Image" style="max-width: 100px;"></td>
+                        <td class="text-center">{{mobil.stock}}</td>
+                        <td class="text-center">{{mobil.typeCar}}</td>
+                        <td class="text-center">{{mobil.description}}</td>
+                        <td class="text-center">{{mobil.transmission}}</td>
+                        <td class="text-center">{{mobil.seat}}</td>
+                        <td class="text-center">{{mobil.pricePerDay}}</td>
+                        <td class="text-center">
+                            <a type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#updateMobilModal{{ mobil.id }}"><i class="fa-regular fa-pen-to-square text-white"></i></a>
+                            <a type="button" class="btn btn-danger btn-sm ml-2 shadow-none" data-bs-toggle="modal" data-bs-target="#deleteMobilModal{{ mobil.id }}"><i class="fa-regular fa-trash-can"></i></a>
+                        </td>
+                {% endfor %}
+            
+    </tbody>
+    </table>
+  
+    </div>
+</div>
+<div class="container">
+<!-- Add Product Modal -->
+<div class="modal modal-fullscreen fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Add Car</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Add form for new product -->
+                <form action="{% url 'mobil:createMobil' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nameOfCar" class="form-label">Name of Car</label>
+                        <input type="text" class="form-control shadow-none" id="nameOfCar" name="nameOfCar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carImage1" class="form-label">Image Car1</label>
+                        <input type="file" class="form-control shadow-none" id="carImage1" name="carImage1" accept="upload/images/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carImage2" class="form-label">Image Car2</label>
+                        <input type="file" class="form-control shadow-none" id="carImage2" name="carImage2" accept="upload/images/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carImage3" class="form-label">Image Car3</label>
+                        <input type="file" class="form-control shadow-none" id="carImage3" name="carImage3" accept="upload/images/*" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stockCar" class="form-label">Stock</label>
+                        <input type="number" class="form-control shadow-none" id="stockCar" name="stockCar" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carDesc" class="form-label">Description</label>
+                        <textarea class="form-control shadow-none" id="carDesc" name="carDesc" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="typecar" class="form-label">Type of Car</label>
+                        <select class="form-select shadow-none" id="typecar" name="typecar" required>
+                            <option value="Convertible">Convertible</option>
+                            <option value="Coupe">Coupe</option>
+                            <option value="Sedan">Sedan</option>
+                            <option value="Hatchback">Hatchback</option>
+                            <option value="SUV">SUV</option>
+                            <option value="MPV">MPV</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transmission" class="form-label">transmission</label>
+                        <select class="form-select shadow-none" id="transmission" name="transmission" required>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="seatOfCar" class="form-label">Seat</label>
+                        <input type="text" class="form-control shadow-none" id="seatOfCar" name="seatOfCar" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="carPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control shadow-none" id="carPrice" name="carPrice" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Add Car</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>  
+
+
+<!-- Update Product Modals -->
+{% for mobil in mobils %}
+<div class="modal fade" id="updateMobilModal{{ mobil.id }}" tabindex="-1" aria-labelledby="updateMobilModal{{ mobil.id }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateMobilModal{{ mobil.id }}Label">Update Car</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm{{ mobil.id }}" action="{% url 'mobil:updateMobil' mobil.id %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nameOfCar" class="form-label">Name of Car</label>
+                        <input type="text" class="form-control shadow-none" id="nameOfCar" name="nameOfCar" value="{{mobil.name}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carImage1" class="form-label">Image Car1</label>
+                        <input type="file" class="form-control shadow-none" id="carImage1" name="carImage1" accept="upload/images/*" value="{{mobil.image1.url}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carImage2" class="form-label">Image Car2</label>
+                        <input type="file" class="form-control shadow-none" id="carImage2" name="carImage2" accept="upload/images/*" value="{{mobil.image2.url}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carImage3" class="form-label">Image Car3</label>
+                        <input type="file" class="form-control shadow-none" id="carImage3" name="carImage3" accept="upload/images/*" value="{{mobil.image3.url}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="stockCar" class="form-label">Stock</label>
+                        <input type="number" class="form-control shadow-none" id="stockCar" name="stockCar" value="{{mobil.stock}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="carDesc" class="form-label">Description</label>
+                        <textarea class="form-control shadow-none" id="carDesc" name="carDesc" rows="3" value="{{mobil.description}}" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="typecar" class="form-label">Type of Car</label>
+                        <select class="form-select shadow-none" id="typecar" name="typecar" required>
+                            <option value="Convertible" {% if mobil.typeCar == "Convertible" %} selected {% endif %} >Convertible</option>
+                            <option value="Coupe" {% if mobil.typeCar == "Coupe" %} selected {% endif %} >Coupe</option>
+                            <option value="Sedan" {% if mobil.typeCar == "Sedan" %} selected {% endif %} >Sedan</option>
+                            <option value="Hatchback" {% if mobil.typeCar == "Hatchback" %} selected {% endif %} >Hatchback</option>
+                            <option value="SUV" {% if mobil.typeCar == "SUV" %} selected {% endif %} >SUV</option>
+                            <option value="MPV" {% if mobil.typeCar == "MPV" %} selected {% endif %} >MPV</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="transmission" class="form-label">transmission</label>
+                        <select class="form-select shadow-none" id="transmission" name="transmission" required>
+                            <option value="Manual" {% if mobil.transmission == "Manual" %} selected {% endif %}>Manual</option>
+                            <option value="Automatic" {% if mobil.transmission == "Automatic" %} selected {% endif %}>Automatic</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="seatOfCar" class="form-label">Seat</label>
+                        <input type="text" class="form-control shadow-none" id="seatOfCar" name="seatOfCar" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="carPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control shadow-none" id="carPrice" name="carPrice" value="{{mobil.pricePerDay}}" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Update Car</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteMobilModal{{ mobil.id }}" tabindex="-1" aria-labelledby="deleteMobilModal{{ mobil.id }}Label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteMobilModal{{ mobil.id }}Label">Delete Car</h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete {{ mobil.name }}?</p>
+                <form action="{% url 'mobil:deleteMobil' mobil.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger w-100">Delete Car</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock contents %}
+    

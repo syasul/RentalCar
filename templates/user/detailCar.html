@@ -1,0 +1,43 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+    
+{% endblock headers %}
+
+{% block contents %}
+    {% include '../partials/navbarUser.html' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 mb-3">
+                <img src="{{ mobils.image1.url }}" alt=""
+                    class="img-fluid rounded" style="width: 100%; height: 50%">
+            </div>
+
+            <div class="col-md-3">
+                <h3>{{mobils.name}}</h3>
+                <p>StoK: {{mobils.stock}}</p>
+                <p>{{mobils.pricePerDay}} /hari</p>
+                <p><b>{{mobils.description}}</b></p>
+                {% comment %} <a class="btn cart-button" href="#" style="width: 100%;">Add to Cart</a> {% endcomment %}
+                <form method="POST" action="{% url 'pesanan:setRentalDates' mobil_id=mobils.id %}">
+                  {% csrf_token %}
+                  <div class="mb-2 form-group">
+                    <label for="checkIn" class="form-label">Check In</label>
+                    <input type="date" class="form-control shadow-none" id="checkIn" name="checkIn">
+                  </div>
+                  <div class="mb-2 form-group">
+                    <label for="checkOut" class="form-label">Check Out</label>
+                    <input type="date" class="form-control shadow-none" id="checkOut" name="checkOut">
+                  </div>
+                  {% if mobils.stock != 0 %}
+                    <button class="btn cart-button fw-medium" type="submit"><i class="fa-solid fa-cart-plus"></i> Book</button>
+                  {% else %}
+                    <button class="btn cart-button fw-medium disabled" type="submit"><i class="fa-solid fa-cart-plus"></i> Book</button>
+                  {% endif %}
+                </form>
+               
+            </div>
+        </div>
+    </div>
+{% endblock contents %}
+    

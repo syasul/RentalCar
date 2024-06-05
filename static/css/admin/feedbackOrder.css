@@ -1,0 +1,6 @@
+.rating>label {
+    position: relative;
+    font-size: 20px;
+    font-weight: 200;
+    color: #FFD600;
+}

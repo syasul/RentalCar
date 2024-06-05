@@ -1,0 +1,75 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+    
+{% endblock headers %}
+
+{% block contents %}
+    {% include '../partials/navbarUser.html' %}
+    <div class="container d-flex justify-content-center mb-3">
+        <!-- Tampilkan data mobil -->
+        <div class="card mb-3">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="{{ mobils.image1.url }}" class="card-img" alt="{{ mobils.name }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ mobils.name }}</h5>
+                        <p class="card-text">{{ mobils.description }}</p>
+                        <p class="card-text"><small class="text-muted">Harga: Rp {{ mobils.price }}</small></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+          
+        <!-- form check out -->
+        <div class="col-md-6">
+            <h3 class="text-center"><b>Rental Form</b></h3>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3 form-group">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control shadow-none" id="firstName" name="firstName" placeholder="First Name" value="{{ user.first_name }}" disabled>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control shadow-none" id="lastName" name="lasttName" placeholder="Last Name" value="{{ user.last_name }}" disabled>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control shadow-none" id="email" name="email"  value="{{ user.email }}" disabled>
+                </div>
+                
+                <div class="mb-3 form-group">
+                    <label for="telephone" class="form-label">Telephone</label>
+                    <input type="number" class="form-control shadow-none" id="telephone" name="telephone" placeholder="Telephone">
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="uploadKK" class="form-label">Upload KK</label>
+                    <input type="file" class="form-control shadow-none" id="uploadKK" name="uploadKK" placeholder="uploadKK" accept="upload/images/*">
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="uploadKTP" class="form-label">Upload KTP</label>
+                    <input type="file" class="ml-1 form-control shadow-none" id="uploadKTP" name="uploadKTP" placeholder="uploadKTP" accept="upload/images/*">
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="address" class="form-label">Address</label>
+                    <textarea class="form-control shadow-none" name="address" id="address" name="address" cols="30" rows="5"
+                        placeholder="Address"></textarea>
+                </div>
+                <div class="row justify-content-between mb-2 w-100 form-group">
+                    <div class="col">Total: </div>
+                    <div class="col text-end" id="totalPrice">Rp {{totalPrice}}</div>
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="uploadPurchace" class="form-label">Upload Purchace</label>
+                    <input type="file" class="form-control shadow-none" id="uploadPurchace" name="uploadPurchace" placeholder="uploadPurchace" accept="upload/images/*">
+                    <div class="form-text">*Transfer ke rekening Bank AyamJago 1213131</div>
+                </div>
+                <button style="width: 100%;" type="submit" class="btn btn-primary button-book">Book</button>
+            </form>
+        </div>
+    </div>    
+{% endblock contents %}
+    

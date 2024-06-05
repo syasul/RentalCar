@@ -1,0 +1,47 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+    
+{% endblock headers %}
+
+{% block contents %}
+    {% include '../partials/navbarUser.html' %}
+    <div class="container">
+        
+
+          <div class="row justify-content-start">
+            {% for mobil in mobils  %}  
+              <!-- card -->
+              <div class="card mb-3 shadow-sm" style="width: 18rem; margin: 0 6px">
+                  <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 170px;">
+                  <div class="card-body">
+                      <h5 class="card-title">{{mobil.name}}</h5>
+                      <p>{{mobil.pricePerDay}} /hari</p>
+                      <p class="card-text">stok: {{mobil.stock}}</p>
+
+                      <div class="row">
+                          <div class="col">
+                              {% comment %} <a href="#" class="btn bt-sm cart-button">Add to Cart</a> {% endcomment %}
+                              {% if mobil.stock != 0 %}
+                              <form method="post" action="{% url 'pesanan:formCheckout' mobil_id=mobil.id %}">
+                                {% csrf_token %}
+                                <button class="btn bt-sm cart-button w-100" type="submit"><i class="fa-solid fa-cart-plus"></i></button>
+                              </form>
+                            {% else %}
+                              <button class="btn bt-sm cart-button disabled w-100" type="submit"><i class="fa-solid fa-cart-plus"></i></button>
+                            {% endif %}
+                          </div>
+                          <div class="col">
+                              <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}" class="btn description-button w-100">Detail</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          {% endfor %}
+            
+
+          
+      </div>
+{% endblock contents %}
+    

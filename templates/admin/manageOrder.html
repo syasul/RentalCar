@@ -1,0 +1,59 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+    
+{% endblock headers %}
+
+{% block contents %}
+    {% include '../partials/navbarAdmin.html' %}
+    <div class="container">
+        {% comment %} <div class="mt-5">
+            <a href="{% url 'Admin:manage-order' %}?sort={% if sort == 'desc' %}asc{% else %}desc{% endif %}" class="btn sort-btn">Sort <i class='bx bx-sort'></i></a>
+          </div> {% endcomment %}
+    
+          <!-- Data -->
+          <div class="mt-2 d-flex justify-content-around">
+          <table class="table  table-striped">
+            <thead>
+              <tr>
+                
+                <th class="text-center">Email</th>
+                <th class="text-center">Tanggal Mulai</th>
+                <th class="text-center">Tanggal Selesai</th>
+                <th class="text-center">Denda</th>
+                <th class="text-center">Total</th>
+                <th class="text-center">Foto Transfer</th>
+                <th class="text-center">Status</th>
+                <th class="text-center">Alamat</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in orders %}
+              <tr>
+                
+                <td class="text-center">{{ order.id_user }}</td>
+                <td class="text-center">{{ order.start_date }}</td>
+                <td class="text-center">{{ order.end_date }}</td>
+                <td class="text-center">{{ order.fine }}</td>
+                <td class="text-center">{{ order.grand_total }}</td>
+                <td class="text-center"><img src="{{ order.payment_receipt_image_path.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded "></td>
+                <td class="text-center">
+                  <form action="{% url 'pesanan:updateStatus' id_order=order.id %}" method="POST">
+                    {% csrf_token %}
+                    <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
+                      <option value="Belum Tekonfirmasi" {% if order.status == 'Belum Tekonfirmasi' %} selected {% endif %}>Belum Tekonfirmasi</option>
+                      <option value="Terkonfirmasi" {% if order.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
+                      <option value="Dikirim" {% if order.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
+                    </select>
+                  </form>
+                </td>
+                <td class="text-center">{{ order.address }}</td>
+                
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+{% endblock contents %}
+    
