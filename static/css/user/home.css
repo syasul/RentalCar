@@ -1,0 +1,38 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+.jumbotron {
+    /* background-image: url(img/car5.png); */
+    width: 84%;
+
+    margin-left: 7rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 2%;
+    margin-top: 1rem;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../img/car5.png);
+}
+
+main img {
+    border-radius: 2%;
+}
+
+.jumbotron .container {
+    text-align: center;
+    color: white;
+    padding: 10rem;
+}
+
+.image button {
+    background: #5FBDFF;
+}
+
+footer {
+    background: #5FBDFF;
+    ;
+}
+
+nav button {
+    background: #7B66FF;
+}
