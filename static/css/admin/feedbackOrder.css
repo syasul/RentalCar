@@ -1,6 +1,109 @@
+body {
+    overflow-x: hidden;
+}
+
+.wrapper {
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+.wrapper .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* tabel */
+.wrapper .tabel {
+    border-radius: 20px;
+    padding: 2%;
+}
+
+.wrapper .tabel hr {
+    width: 100%;
+    height: 2px;
+    border-radius: 3px;
+}
+
+.wrapper .tabel p {
+    line-height: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.wrapper .tabel .card {
+    border-radius: 10px;
+}
+
+.tabel .row .col-sm-2 .btn {
+    height: 38px;
+    font-weight: 500;
+    color: white;
+    width: 50px;
+    border-radius: 10px;
+}
+
+.formsearch,
+.formsearch:focus {
+    border: 1.5px solid rgba(0, 0, 0, 0.4);
+    height: 38px;
+    border-radius: 10px;
+    font-size: medium;
+    padding-top: 1px;
+    font-weight: 500;
+}
+
+.col-sm-2 i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* search */
+.tabel .row .d-flex .col-sm-4 .btn {
+    background-color: rgba(104, 126, 255, 0.5);
+    color: #687EFF;
+    font-weight: 600;
+    border-radius: 10px;
+}
+
+.tabel .row .d-flex .col-sm-4 .btn i {
+    margin-right: 10px;
+}
+
 .rating>label {
     position: relative;
     font-size: 20px;
     font-weight: 200;
     color: #FFD600;
+}
+
+.position-relative {
+    position: relative;
+    width: 180px;
+}
+
+.position-relative input {
+    padding-left: 30px;
+}
+
+.position-absolute {
+    position: absolute;
+}
+
+.top-50 {
+    top: 50%;
+}
+
+.end-0 {
+    left: 10px;
+}
+
+.translate-middle-y {
+    transform: translateY(-50%);
+}
+
+.pe-3 {
+    padding-right: 1rem;
 }

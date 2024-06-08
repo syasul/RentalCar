@@ -5,6 +5,135 @@
 {% endblock headers %}
 
 {% block contents %}
-    {% include '../partials/navbarAdmin.html' %}
+{% include '../partials/navbarAdmin.html' %}
+<div class="wrapper">
+    <div class="row my-4">
+        <div class="col mb-2">
+            <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
+                <div class="d-flex align-items-center">
+                    <div class="card-body col-8">
+                        <h5 class="card-title">3</h5>
+                        <p class="card-text">Total User</p>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'img/user.png' %}" alt="User Image" class="img-fluid" style="width: 50px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="card" style="background: #04C3FB; color: white;" width="19rem">
+                <div class="d-flex align-items-center">
+                    <div class="card-body col-8">
+                        <h5 class="card-title">3</h5>
+                        <p class="card-text">Total Car</p>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'img/car.png' %}" alt="Car Image" class="img-fluid" style="width: 50px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="card" style="background: #09AD95; color: white;">
+                <div class="d-flex align-items-center">
+                    <div class="card-body col-8">
+                        <h5 class="card-title">3</h5>
+                        <p class="card-text">Total Income</p>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'img/dollar.png' %}" alt="Income Image" class="img-fluid"
+                            style="width: 50px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
+                <div class="d-flex align-items-center">
+                    <div class="card-body col-8">
+                        <h5 class="card-title">3</h5>
+                        <p class="card-text">Total Order</p>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'img/refresh.png' %}" alt="Order Image" class="img-fluid"
+                            style="width: 50px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col mb-2">
+            <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
+                <div class="d-flex align-items-center">
+                    <div class="card-body col-8">
+                        <h5 class="card-title">3</h5>
+                        <p class="card-text">Total Feedback</p>
+                    </div>
+                    <div class="col-4 d-flex align-items-center justify-content-center">
+                        <img src="{% static 'img/refresh.png' %}" alt="Feedback Image" class="img-fluid"
+                            style="width: 50px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- tabel -->
+    <div class="tabel shadow">
+        <div class="row">
+            <h4>Data</h4>
+            <hr>
+            <p>Filter Tanggal</p>
+            <div class="d-flex mb-3">
+                <div class="col-sm-2">
+                    <input type="datetime" class="form-control shadow-none" id="firstName" placeholder="tanggal awal" value=""
+                        required>
+                </div>
+                <div class="col-sm-2 mx-2">
+                    <input type="datetime" class="form-control shadow-none" id="firstName" placeholder="tanggal akhir" value=""
+                        required>
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-info" type="button">Filter</button>
+                    <button class="btn btn-danger" type="button">Pdf</button>
+                </div>
+                <div class="col-sm-2">
+
+                </div>
+            </div>
+            <div class="col-12 col-xl-12 mb-4 mb-lg-0">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class=" text-center">No</th>
+                                        <th class=" text-center">Order</th>
+                                        <th class=" text-center">Car</th>
+                                        <th class=" text-center">Price</th>
+                                        <th class=" text-center">Check in</th>
+                                        <th class=" text-center">Check out</th>
+                                        <th class=" text-center">Total Harga</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th class="text-center">17371705</th>
+                                        <td class="text-center">Volt Premium Bootstrap 5 Dashboard</td>
+                                        <td class="text-center">johndoe@gmail.com</td>
+                                        <td class="text-center">€61.11</td>
+                                        <td class="text-center">Aug 31 2020</td>
+                                        <td class="text-center">Des 30 2020</td>
+                                        <td class="text-center">00000000001</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock contents %}
-    

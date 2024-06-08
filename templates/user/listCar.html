@@ -5,43 +5,87 @@
 {% endblock headers %}
 
 {% block contents %}
-    {% include '../partials/navbarUser.html' %}
-    <div class="container">
-        
-
-          <div class="row justify-content-start">
-            {% for mobil in mobils  %}  
-              <!-- card -->
-              <div class="card mb-3 shadow-sm" style="width: 18rem; margin: 0 6px">
-                  <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 170px;">
-                  <div class="card-body">
-                      <h5 class="card-title">{{mobil.name}}</h5>
-                      <p>{{mobil.pricePerDay}} /hari</p>
-                      <p class="card-text">stok: {{mobil.stock}}</p>
-
-                      <div class="row">
-                          <div class="col">
-                              {% comment %} <a href="#" class="btn bt-sm cart-button">Add to Cart</a> {% endcomment %}
-                              {% if mobil.stock != 0 %}
-                              <form method="post" action="{% url 'pesanan:formCheckout' mobil_id=mobil.id %}">
-                                {% csrf_token %}
-                                <button class="btn bt-sm cart-button w-100" type="submit"><i class="fa-solid fa-cart-plus"></i></button>
-                              </form>
-                            {% else %}
-                              <button class="btn bt-sm cart-button disabled w-100" type="submit"><i class="fa-solid fa-cart-plus"></i></button>
-                            {% endif %}
-                          </div>
-                          <div class="col">
-                              <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}" class="btn description-button w-100">Detail</a>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-
-          {% endfor %}
-            
-
-          
+{% include '../partials/navbarUser.html' %}
+<main class="flex-fill">
+  <div class="row">
+    <div class="col-2">
+      <div class="header-filter">Showing <span>4</span> Car</div>
+      <div class="categories-section">
+        <div class="header-category">Categories</div>
+        <div class="category-group">
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">Convertible</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">Coupe</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">Sedan</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">Hatchback</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">SUV</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">MPV</label>
+          </div>
+        </div>
       </div>
+      <div class="transmission-section">
+        <div class="header-transmission">Transmission</div>
+        <div class="transmission-group">
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">Automatic</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault">Manual</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-10">
+      <div class="row justify-content-start">
+        {% for mobil in mobils %}
+        <!-- card -->
+        <div class="card mb-3 shadow-sm" style="width: 21%; margin: 0 5px">
+          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 170px;">
+          <div class="card-body">
+            <h5 class="card-title">{{mobil.name}}</h5>
+            <p class="card-text">{{mobil.description }}</p>
+            <p><b>Rp. {{mobil.pricePerDay}},-</b></p>
+            <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}"
+              class="btn shadow-none description-button w-100">Detail</a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+<!-- Footer -->
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3  border-top w-100">
+  <div class="col text-start" style="color: white; font-weight:700; font-size: 13px">
+    <a href="" class="mb-3 mb-md-0 text-body-secondary text-decoration-none lh-1">
+      <svg class="bi" width="40" height="24">
+        <use xlink:href="#bootstrap" />
+      </svg>
+    </a>
+    <span class="mb-3 mb-md-0 text-body-secondary">&copy; RentCar</span>
+  </div>
+  <div class="col-md-4 text-end mr-3">
+    <img src="{% static 'img/wa.png' %}" alt="" width="23px">
+    <img src="{% static 'img/instagram.png' %}" alt="" width="23px">
+    <img src="{% static 'img/facebook.png' %}" alt="" width="23px">
+  </div>
+</footer>
 {% endblock contents %}
-    

@@ -5,112 +5,177 @@
 {% endblock headers %}
 
 {% block contents %}
-    {% include '../partials/navbarUser.html' %}
-    
-    <div class="container mt-5">
-        <h2 class="text-center mb-4">My Orders</h2>
-        
-        {% if orders %}
-            <div class="row">
-                {% for order in orders %}
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <h5 class="card-title">Order ID: {{ order.id }}</h5>
-                                <p class="card-text"><strong>Car Name:</strong> {{ order.id_order.id_mobils.name }}</p>
-                                <p class="card-text"><strong>Check-In Date:</strong> {{ order.start_date }}</p>
-                                <p class="card-text"><strong>Check-Out Date:</strong> {{ order.end_date }}</p>
-                                <p class="card-text"><strong>Total Price:</strong> Rp {{ order.grand_total }}</p>
-                                <p class="card-text"><strong>Status:</strong> {{ order.status }}</p>
-                                <p class="card-text"><strong>Denda:</strong> {{ order.fine }}</p> <!-- Debug output -->
-                                {% if order.payment_receipt_image_path %}
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#receiptModal{{ order.id }}">
-                                        View Payment Receipt
-                                    </button>
+{% include '../partials/navbarUser.html' %}
 
-                                    <!-- Modal for Payment Receipt -->
-                                    <div class="modal fade" id="receiptModal{{ order.id }}" tabindex="-1" aria-labelledby="receiptModalLabel{{ order.id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-dialog-centered">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="receiptModalLabel{{ order.id }}">Payment Receipt</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <img src="{{ order.payment_receipt_image_path.url }}" class="img-fluid" alt="Payment Receipt">
-                                                </div>
+<main class="container  mt-5">
+
+    {% if orders %}
+    <div class="row d-flex justify-content-center">
+
+
+        {% for order in orders %}
+        <div class="col-md-7 mb-4 ">
+            <h2 class="text-left">My Orders</h2>
+            <div class="card shadow">
+                <div class="cardbody">
+                    <div class="header row d-flex justify-content-between ">
+                        <div class="col-4 mt-1">
+                            <p class="card-text">Pesanan: {{ order.id }}</p>
+                            <p class="card-text">Status: {{ order.status }}</p>
+                        </div>
+
+                        <div class="col-4 text-end">
+                            {% if order.payment_receipt_image_path %}
+                            <button type="button" class="btn btn-primary button-side-top mb-1" data-bs-toggle="modal"
+                                data-bs-target="#receiptModal{{ order.id }}">
+                                View Payment Receipt
+                            </button>
+
+                            <!-- Modal for Payment Receipt -->
+                            <div class="modal fade" id="receiptModal{{ order.id }}" tabindex="-1"
+                                aria-labelledby="receiptModalLabel{{ order.id }}" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="receiptModalLabel{{ order.id }}">Payment Receipt
+                                            </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img src="{{ order.payment_receipt_image_path.url }}" class="img-fluid"
+                                                alt="Payment Receipt">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <p class="card-text">No payment receipt available.</p>
+                            {% endif %}
+                            {% if order.returnorder_set.last.status == "Dikembalikan" %}
+                            <button type="button" class="btn btn-danger button-side-top disabled">Kembalikan</button>
+                            {% else %}
+                            {% if order.status == "Belum Terkonfirmasi" %}
+                            <button type="button" class="btn btn-danger button-side-top disabled">Kembalikan</button>
+                            {% elif order.status == "Terkonfirmasi" %}
+                            <button type="button" class="btn btn-danger button-side-top disabled">Kembalikan</button>
+                            {% else %}
+                            <button type="button" class="btn btn-danger button-side-top" data-bs-toggle="modal"
+                                data-bs-target="#returnModal{{ order.id }}">Kembalikan</button>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+
+                    </div>
+                    <div class="row body-value d-flex justify-content-between align-items-center">
+                        <div class="col-2 text-center">
+                            <img src="{{ mobils.image1.url }}" class="card-img" alt="{{ mobils.name }}">
+                        </div>
+                        <div class=" col-2 text-center">
+                            <div class="col header-card">{{ order.id_order.id_mobils.name }}</div>
+                        </div>
+
+                        <div class="col-2 text-center">
+                            <div class="col header-card">CHECK IN</div>
+                            <div class="col value-card">{{ order.start_date }}</div>
+                        </div>
+                        <div class="col-2 text-center">
+                            <div class="col header-card">CHECK OUT</div>
+                            <div class="col value-card"> {{ order.end_date }}</div>
+                        </div>
+                        <div class="col-2 text-center">
+                            <div class="col header-card">GRAND TOTAL</div>
+                            <div class="col value-card">{{ order.grand_total }}</div>
+                        </div>
+                        <div class="col-2 text-center">
+                            <div class="col header-card">FINE</div>
+                            <div class="col value-card">{{ order.fine }}</div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Returning the Car -->
+        <div class="modal fade" id="returnModal{{ order.id }}" tabindex="-1"
+            aria-labelledby="returnModalLabel{{ order.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="returnModalLabel{{ order.id }}">Return Car - Order ID: {{
+                            order.id_order.id_mobils.name }}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" enctype="multipart/form-data"
+                            action="{% url 'pesanan:returnOrder' id_order=order.id %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <div class="d-flex justify-content-left">
+                                    <div class=" d-flex justify-content-left">
+                                        <div class=" d-flex justify-content-left">
+                                            <div class="rating">
+                                                <input type="radio" name="rating" value="5" id="5"><label
+                                                    for="5">☆</label>
+                                                <input type="radio" name="rating" value="4" id="4"><label
+                                                    for="4">☆</label>
+                                                <input type="radio" name="rating" value="3" id="3"><label
+                                                    for="3">☆</label>
+                                                <input type="radio" name="rating" value="2" id="2"><label
+                                                    for="2">☆</label>
+                                                <input type="radio" name="rating" value="1" id="1"><label
+                                                    for="1">☆</label>
                                             </div>
                                         </div>
                                     </div>
-                                {% else %}
-                                    <p class="card-text">No payment receipt available.</p>
-                                {% endif %}
-                                {% if order.returnorder_set.last.status == "Dikembalikan" %}
-                                    <button type="button" class="btn btn-danger disabled">Kembalikan</button>
-                                {% else %}
-                                    {% if order.status == "Belum Terkonfirmasi" %}
-                                    <button type="button" class="btn btn-danger disabled">Kembalikan</button>
-                                    {% elif order.status == "Terkonfirmasi" %}
-                                    <button type="button" class="btn btn-danger disabled">Kembalikan</button>
-                                    {% else %}
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#returnModal{{ order.id }}">Kembalikan</button>
-                                    {% endif %}
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Modal for Returning the Car -->
-                    <div class="modal fade" id="returnModal{{ order.id }}" tabindex="-1" aria-labelledby="returnModalLabel{{ order.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="returnModalLabel{{ order.id }}">Return Car - Order ID: {{  order.id_order.id_mobils.name }}</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="post" enctype="multipart/form-data" action="{% url 'pesanan:returnOrder' id_order=order.id %}">
-                                        {% csrf_token %}
-                                        <div class="mb-3">
-                                            <label for="rating" class="form-label">Rating</label>
-                                            <div class="d-flex justify-content-left">
-                                                <div class=" d-flex justify-content-left">
-                                                    <div class=" d-flex justify-content-left">
-                                                        <div class="rating"> 
-                                                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> 
-                                                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> 
-                                                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> 
-                                                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> 
-                                                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label> 
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="testimonial" class="form-label">Testimonial</label>
-                                            <textarea class="form-control" id="testimonial" name="contentTestimonial" rows="3" required></textarea>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="image" class="form-label">Upload Image</label>
-                                            <input class="form-control" type="file" id="image" name="image" accept="image/*" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
-                                    
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% else %}
-            <p class="text-center">You have no orders.</p>
-        {% endif %}
-    </div>
+                            <div class="mb-3">
+                                <label for="testimonial" class="form-label">Testimonial</label>
+                                <textarea class="form-control" id="testimonial" name="contentTestimonial" rows="3"
+                                    required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="image" class="form-label">Upload Image</label>
+                                <input class="form-control" type="file" id="image" name="image" accept="image/*"
+                                    required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
 
-    <script>
-        const ratings = document.getElementById('rating1'); const rating1 = new CDB.Rating(ratings);
-        rating1.getRating;
-      </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center">You have no orders.</p>
+    {% endif %}
+</main>
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3  border-top w-100">
+    <div class="col text-start" style="color: white; font-weight:700; font-size: 13px">
+      <a href="" class="mb-3 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="40" height="24">
+          <use xlink:href="#bootstrap" />
+        </svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-body-secondary">&copy; RentCar</span>
+    </div>
+    <div class="col-md-4 text-end mr-3">
+      <img src="{% static 'img/wa.png' %}" alt="" width="23px">
+      <img src="{% static 'img/instagram.png' %}" alt="" width="23px">
+      <img src="{% static 'img/facebook.png' %}" alt="" width="23px">
+    </div>
+  </footer>
+
+<script>
+    const ratings = document.getElementById('rating1'); const rating1 = new CDB.Rating(ratings);
+    rating1.getRating;
+</script>
 {% endblock contents %}

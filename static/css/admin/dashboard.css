@@ -1,0 +1,91 @@
+body {
+    overflow-x: hidden;
+}
+
+.wrapper {
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.wrapper .row {
+    display: flex;
+    /* column-gap: 10px;
+    row-gap: 10px; */
+}
+
+/* card */
+
+.col .card {
+    border-radius: 10px;
+    width: 100%;
+
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.img-fluid {
+    max-width: 50%;
+    height: auto;
+}
+
+.card-body {
+    padding-bottom: 15px;
+}
+
+
+
+.card-body .card-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.card-body .card-text {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 10px;
+}
+
+/* tabel */
+.wrapper .tabel {
+
+    border-radius: 20px;
+    padding: 2%;
+}
+
+.wrapper .tabel hr {
+    width: 100%;
+    height: 2px;
+    border-radius: 3px;
+}
+
+.wrapper .tabel p {
+    line-height: 10px;
+    font-weight: 600;
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.5);
+
+}
+
+.wrapper .tabel .card {
+    border-radius: 10px;
+}
+
+.tabel .row .col-sm-2 .btn {
+    height: 38px;
+    font-weight: 500;
+    color: white;
+    width: 50px;
+    border-radius: 10px;
+}
+
+.form-control,
+.form-control:focus {
+    border: 1.5px solid rgba(0, 0, 0, 0.4);
+    height: 38px;
+    border-radius: 10px;
+    font-size: medium;
+    padding-top: 1px;
+    font-weight: 500;
+}

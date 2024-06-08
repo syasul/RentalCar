@@ -1,38 +1,134 @@
+html,
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
 }
 
-.jumbotron {
-    /* background-image: url(img/car5.png); */
-    width: 84%;
-
-    margin-left: 7rem;
-    background-size: cover;
-    background-repeat: no-repeat;
-    border-radius: 2%;
-    margin-top: 1rem;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url(../img/car5.png);
+body {
+    display: flex;
+    flex-direction: column;
 }
 
-main img {
-    border-radius: 2%;
-}
-
-.jumbotron .container {
-    text-align: center;
-    color: white;
-    padding: 10rem;
-}
-
-.image button {
-    background: #5FBDFF;
+main {
+    flex: 1 0 auto;
+    /* Make main take the remaining space */
+    margin-right: 1%;
+    margin-left: 1%;
 }
 
 footer {
+    flex-shrink: 0;
+    /* Prevent footer from shrinking */
     background: #5FBDFF;
-    ;
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
 }
 
-nav button {
-    background: #7B66FF;
+/* Rest of your CSS */
+.hero-section {
+    background-image: url('../../img/jumbotron.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    height: 90vh;
+    color: white;
+    text-align: center;
+}
+
+.hero-section .header {
+    font-size: 70px;
+    line-height: 100px;
+    font-weight: 500;
+}
+
+.hero-section .subheader {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.hero-section .desc {
+    width: 45%;
+    font-size: 15px;
+}
+
+.hero-section .btn-reserved {
+    margin-top: 7%;
+    background-color: #5FBDFF;
+    color: white;
+    font-weight: 500;
+    font-size: 15px;
+    border-radius: 6px;
+    width: 10%;
+}
+
+.sections {
+    padding-right: 2%;
+    padding-left: 2%;
+}
+
+.sections .line {
+    width: 70px;
+    height: 5px;
+    background-color: #7B66FF;
+    border-radius: 10px;
+}
+
+.sections .about .row .col-md-7 {
+    font-weight: 400;
+    font-size: 20px;
+    text-align: right;
+}
+
+.sections .newCar .row .card {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sections .newCar .row .card img {
+    border-radius: 15px;
+}
+
+.sections .newCar .row .card .card-body {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 10px;
+}
+
+.sections .newCar .row .card .card-body .card-text {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 15px;
+}
+
+.sections .newCar .row .card .card-body .description-button {
+    background-color: #96EFFF;
+    color: white;
+    font-weight: 500;
+    border-radius: 20px;
+}
+
+.sections .testimoni .row .card {
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.sections .testimoni .row .card img {
+    border-radius: 15px;
+}
+
+.sections .testimoni .row .card .card-body {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 10px;
+}
+
+.sections .testimoni .row .card .card-body .card-text {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 15px;
 }
