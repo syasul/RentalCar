@@ -1,0 +1,46 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+<link rel="stylesheet" href="{% static 'css/user/contact.css' %}">
+{% endblock headers %}
+
+{% block contents %}
+{% include '../partials/navbarUser.html' %}
+
+<main class="container  mt-5">
+    <div class="container py-5 mt-5">
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="contact-info">
+              <h2 class="text-center mb-4">Hubungi Kamu</h2>
+              <ul class="list-group">
+                <li class="list-group-item">Email: example@example.com</li>
+                <li class="list-group-item">Phone: +123456789</li>
+                <li class="list-group-item">Address: 123 Street, City, Country</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+</main>
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3  border-top w-100">
+    <div class="col text-start" style="color: white; font-weight:700; font-size: 13px">
+      <a href="" class="mb-3 mb-md-0 text-body-secondary text-decoration-none lh-1">
+        <svg class="bi" width="40" height="24">
+          <use xlink:href="#bootstrap" />
+        </svg>
+      </a>
+      <span class="mb-3 mb-md-0 text-body-secondary">&copy; RentCar</span>
+    </div>
+    <div class="col-md-4 text-end mr-3">
+      <img src="{% static 'img/wa.png' %}" alt="" width="23px">
+      <img src="{% static 'img/instagram.png' %}" alt="" width="23px">
+      <img src="{% static 'img/facebook.png' %}" alt="" width="23px">
+    </div>
+  </footer>
+
+<script>
+    const ratings = document.getElementById('rating1'); const rating1 = new CDB.Rating(ratings);
+    rating1.getRating;
+</script>
+{% endblock contents %}

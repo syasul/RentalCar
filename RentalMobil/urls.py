@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('dashboard/', views.dashboard, name="dashboard"),
     path('dashboard/pdf/', views.generate_pdf, name="generate_pdf"),
+    path('contact/', views.Contact, name="contact"),
     path('mobil/', include(('mobil.urls', 'mobil'), namespace='mobil')),
     path('user/', include(('user.urls', 'user'), namespace='user')),
     path('pesanan/', include(('pesanan.urls', 'pesanan'), namespace="pesanan")),

@@ -63,12 +63,12 @@ def dashboard(request):
 
 
 def generate_pdf(request):
-    template_path = 'admin/admin/dashboard_pdf.html'
+    template_path = 'admin/dashboard_pdf.html'
     orders = Order.objects.all()
     context = {'orders': orders}
     
     response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="dashboard.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="export_keuangan.pdf"'
     
     template = get_template(template_path)
     html = template.render(context)
@@ -78,4 +78,8 @@ def generate_pdf(request):
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
+
+def Contact(request):
+    return render(request, 'user/contact.html')
+    
     
