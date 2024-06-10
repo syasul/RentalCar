@@ -47,7 +47,7 @@
         {% for mobil in mobils %}
         <!-- card -->
         <div class="card mb-3 shadow-sm" style="width: 15.80%; margin: 0 5px">
-          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 150px; width: 170px">
+          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 150px; ">
           <div class="card-body">
             <h5 class="card-title">{{mobil.name}}</h5>
             <p class="card-text">{{mobil.description }}</p>
@@ -67,27 +67,14 @@
     <hr class="line rounded-4">
     <div class="newCar">
       <div class="row justify-content-start">
-        {% comment %} {% for mobil in mobils %}
-        <!-- card -->
-        <div class="card mb-3 shadow-sm" style="width: 15.80%; margin: 0 5px">
-          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 170px; width: 170px">
-          <div class="card-body">
-            <h5 class="card-title">{{mobil.name}}</h5>
-            <p class="card-text">{{mobil.description }}</p>
-            <p><b>{{mobil.pricePerDay}},- /hari</b></p>
-            <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}"
-              class="btn shadow-none description-button w-100">Detail</a>
-          </div>
-        </div>
-        {% endfor %} {% endcomment %}
         {% for testi in ratings %}
         <div class="card mb-3 shadow-sm" style="width: 15.80%; margin: 0 5px">
-          <img src="{{testi.id_mobil.image1.url}}" class="card-img-top mt-3" alt="..."
-            style="height: 170px; width: 170px">
+          <img src="{{testi.id_mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 170px; ">
           <div class="card-body text-center">
-            <h5 class="card-title">{{ testi.id_mobil.name }}</h5>
+            <div class="row d-flex justify-content-between"></div>
+            <h5 class="card-title">{{ testi.id_user.username}}</h5>
             <p>
-              {% with ''|center:testimonial.rating as range %}
+              {% with ''|center:testi.rating as range %}
               {% for i in range %}
               <label class="text-warning starate">★</label>
               {% endfor %}

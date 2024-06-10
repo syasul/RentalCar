@@ -23,12 +23,10 @@ def home(request):
     return render(request, './user/home.html', {'current_user': current_user, 'mobils': mobils, 'ratings':ratings})
 
 def dashboard(request):
-    current_user = request.user
-    
     if not request.user.is_superuser:
         return redirect("user:loginAdmin")
     
-    order_items = OrderItem.objects.all()
+    order_items = Order.objects.all().prefetch_related('orderitem_set__id_mobils')
     
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -49,6 +47,8 @@ def dashboard(request):
     
     for order in order_items:
         order.grand_total = currency(order.grand_total)
+        for item in order.orderitem_set.all():
+            item.id_mobils.pricePerDay = currency(item.id_mobils.pricePerDay)
 
     context = {
         'order_items': order_items,
@@ -60,7 +60,6 @@ def dashboard(request):
     }
     
     return render(request, 'admin/dashboard.html', context)
-
 
 def generate_pdf(request):
     template_path = 'admin/dashboard_pdf.html'

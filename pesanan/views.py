@@ -101,16 +101,16 @@ def formCheckout(request, mobil_id):
 @login_required
 def MyOrder(request):
     current_user = request.user
-    
+
     if not request.user.is_authenticated:
         return redirect("user:loginUser")
-    
+
     orders = Order.objects.filter(id_user=current_user).order_by('-start_date')
-    
+        
     for order in orders:
         order.grand_total = currency(order.grand_total)
         order.fine = currency(order.fine)
-
+        order.items = OrderItem.objects.filter(id_order=order).select_related('id_mobils')
 
     return render(request, 'user/pesananSaya.html', {'orders': orders, 'current_user': current_user})
 

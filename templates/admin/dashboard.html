@@ -7,7 +7,9 @@
 {% block contents %}
 {% include '../partials/navbarAdmin.html' %}
 <div class="wrapper">
+    <!-- Kartu Statistik -->
     <div class="row my-4">
+        <!-- Total User -->
         <div class="col mb-2">
             <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
@@ -21,6 +23,7 @@
                 </div>
             </div>
         </div>
+        <!-- Total Car -->
         <div class="col mb-2">
             <div class="card" style="background: #04C3FB; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
@@ -34,6 +37,7 @@
                 </div>
             </div>
         </div>
+        <!-- Total Income -->
         <div class="col mb-2">
             <div class="card" style="background: #09AD95; color: white;">
                 <div class="d-flex align-items-center">
@@ -47,6 +51,7 @@
                 </div>
             </div>
         </div>
+        <!-- Total Order -->
         <div class="col mb-2">
             <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
@@ -60,6 +65,7 @@
                 </div>
             </div>
         </div>
+        <!-- Total Feedback -->
         <div class="col mb-2">
             <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
@@ -75,17 +81,18 @@
         </div>
     </div>
 
+    <!-- Pesan -->
     {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-    <!-- Table -->
+    <!-- Tabel Data -->
     <div class="tabel shadow">
         <div class="row">
             <h4>Data</h4>
@@ -127,21 +134,22 @@
                                 <tbody>
                                     {% if order_items %}
                                     {% for order in order_items %}
-                                    <tr>
-                                        <td class="text-center">{{ order.id }}</td>
-                                        <td class="text-center">{{ order.id_mobils.name }}</td>
-                                        <td class="text-center">{{ order.id_mobils.pricePerDay }}</td>
-                                        <td class="text-center">{{ order.start_date }}</td>
-                                        <td class="text-center">{{ order.end_date }}</td>
-                                        <td class="text-center">{{ order.grand_total }}</td>
-                                    </tr>
+                                        {% for item in order.orderitem_set.all %}
+                                        <tr>
+                                            <td class="text-center">{{ order.id }}</td>
+                                            <td class="text-center">{{ item.id_mobils.name }}</td>
+                                            <td class="text-center">{{ item.id_mobils.pricePerDay }}</td>
+                                            <td class="text-center">{{ order.start_date }}</td>
+                                            <td class="text-center">{{ order.end_date }}</td>
+                                            <td class="text-center">{{ order.grand_total }}</td>
+                                        </tr>
+                                        {% endfor %}
                                     {% endfor %}
                                     {% else %}
                                     <tr>
-                                        <td class="text-center" colspan="9">tidak ditemukan</td>
+                                        <td class="text-center" colspan="6">Tidak ditemukan</td>
                                     </tr>
                                     {% endif %}
-                                    
                                 </tbody>
                             </table>
                         </div>

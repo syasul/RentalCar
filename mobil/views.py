@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 
+from django.db.models import Avg
+
 from utils.currency import currency
 
 from .models import Mobils
@@ -150,8 +152,15 @@ def detailCar(request, mobil_id):
     testi_car = TestimonialRating.objects.filter(id_mobil=mobil_id)
     mobil = get_object_or_404(Mobils, id=mobil_id)
     
-
     mobil.pricePerDay = currency(mobil.pricePerDay)
     
-    return render(request, 'user/detailCar.html', { 'mobils': mobil, 'current_user': current_user, 'testi_car': testi_car})
+    # Calculate the average rating
+    average_rating = testi_car.aggregate(Avg('rating'))['rating__avg'] or 0
+    
+    return render(request, 'user/detailCar.html', { 
+        'mobils': mobil, 
+        'current_user': current_user, 
+        'ratings': testi_car, 
+        'average_rating': round(average_rating, 1)
+    })
 

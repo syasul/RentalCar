@@ -37,17 +37,22 @@ main {
 
 /* body-value */
 .body-value {
-    padding: 20px 0px;
+    padding: 20px 10px;
 }
 
 .header-card {
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
 }
 
 .value-card {
-    font-size: 14px;
+    font-size: 8px;
     font-weight: 400;
+}
+
+.col-2 img {
+    border-radius: 10px;
+    padding-left: 10px;
 }
 
 /* rate */
