@@ -11,6 +11,15 @@
 
     {% if orders %}
     <div class="row d-flex justify-content-center">
+        {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
 
 
         {% for order in orders %}
@@ -26,7 +35,7 @@
 
                         <div class="col-4 text-end">
                             {% if order.payment_receipt_image_path %}
-                            <button type="button" class="btn btn-primary button-side-top mb-1" data-bs-toggle="modal"
+                            <button type="button" class="btn shadow-none btn-primary button-side-top mb-1" data-bs-toggle="modal"
                                 data-bs-target="#receiptModal{{ order.id }}">
                                 View Payment Receipt
                             </button>
@@ -39,7 +48,7 @@
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="receiptModalLabel{{ order.id }}">Payment Receipt
                                             </h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
@@ -53,14 +62,14 @@
                             <p class="card-text">No payment receipt available.</p>
                             {% endif %}
                             {% if order.returnorder_set.last.status == "Dikembalikan" %}
-                            <button type="button" class="btn btn-danger button-side-top disabled">Kembalikan</button>
+                            <button type="button" class="btn shadow-none btn-danger button-side-top disabled">Kembalikan</button>
                             {% else %}
                             {% if order.status == "Belum Terkonfirmasi" %}
-                            <button type="button" class="btn btn-danger button-side-top disabled">Kembalikan</button>
+                            <button type="button" class="btn shadow-none btn-danger button-side-top disabled">Kembalikan</button>
                             {% elif order.status == "Terkonfirmasi" %}
-                            <button type="button" class="btn btn-danger button-side-top disabled">Kembalikan</button>
+                            <button type="button" class="btn shadow-none btn-danger button-side-top disabled">Kembalikan</button>
                             {% else %}
-                            <button type="button" class="btn btn-danger button-side-top" data-bs-toggle="modal"
+                            <button type="button" class="btn shadow-none btn-danger button-side-top" data-bs-toggle="modal"
                                 data-bs-target="#returnModal{{ order.id }}">Kembalikan</button>
                             {% endif %}
                             {% endif %}
@@ -108,7 +117,7 @@
                     <div class="modal-header">
                         <h5 class="modal-title" id="returnModalLabel{{ order.id }}">Return Car - Order ID: {{
                             order.id_order.id_mobils.name }}</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form method="post" enctype="multipart/form-data"
@@ -137,15 +146,15 @@
                             </div>
                             <div class="mb-3">
                                 <label for="testimonial" class="form-label">Testimonial</label>
-                                <textarea class="form-control" id="testimonial" name="contentTestimonial" rows="3"
+                                <textarea class="form-control shadow-none" id="testimonial" name="contentTestimonial" rows="3"
                                     required></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Upload Image</label>
-                                <input class="form-control" type="file" id="image" name="image" accept="image/*"
+                                <input class="form-control shadow-none" type="file" id="image" name="image" accept="image/*"
                                     required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="submit" class="btn shadow-none btn-primary">Submit</button>
                         </form>
 
                     </div>

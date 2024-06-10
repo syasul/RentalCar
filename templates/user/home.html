@@ -14,7 +14,7 @@
     <div class="mt-4 desc">Enjoy a comfortable and safe driving experience with our best car rental
       service. Providing various car choices for your various needs,
       from business trips to family holidays.</div>
-    <a href="{% url 'mobil:listCar' %}" class="btn btn-reserved fw-medium shadow-nones">Book Now</a>
+    <a href="{% url 'mobil:listCar' %}" class="btn btn-reserved fw-medium shadow-none">Book Now</a>
   </div>
 
   <div class="sections">
@@ -44,15 +44,19 @@
     <hr class="line rounded-4">
     <div class="newCar">
       <div class="row justify-content-start">
+        {% for mobil in mobils %}
+        <!-- card -->
         <div class="card mb-3 shadow-sm" style="width: 15.80%; margin: 0 5px">
-          <img src="{% static 'img/product.png' %}" class="card-img-top mt-3" alt="..." style="height: 170px;">
+          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 150px; width: 170px">
           <div class="card-body">
-            <h5 class="card-title">BMW M3 GTR</h5>
-            <p class="card-text">dadnugsdasigdasgndashgd jsdhskh</p>
-            <p><b>Rp. 200.000,-</b></p>
-            <a href="#" class="btn description-button w-100">Detail</a>
+            <h5 class="card-title">{{mobil.name}}</h5>
+            <p class="card-text">{{mobil.description }}</p>
+            <p><b>{{mobil.pricePerDay}},- /hari</b></p>
+            <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}"
+              class="btn shadow-none description-button w-100">Detail</a>
           </div>
         </div>
+        {% endfor %}
         <!-- Repeat the card div for more cards as needed -->
       </div>
     </div>
@@ -63,15 +67,36 @@
     <hr class="line rounded-4">
     <div class="newCar">
       <div class="row justify-content-start">
+        {% comment %} {% for mobil in mobils %}
+        <!-- card -->
         <div class="card mb-3 shadow-sm" style="width: 15.80%; margin: 0 5px">
-          <img src="{% static 'img/product.png' %}" class="card-img-top mt-3" alt="..." style="height: 170px;">
-          <div class="card-body text-center">
-            <h5 class="card-title">BMW M3 GTR</h5>
-            <p><label class="text-warning starate">★</label><label class="text-warning starate">★</label><label
-                class="text-warning starate">★</label><label class="text-warning starate">★</label></p>
-            <p class="card-text">dadnugsdasigdasgndashgd jsdhskh</p>
+          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 170px; width: 170px">
+          <div class="card-body">
+            <h5 class="card-title">{{mobil.name}}</h5>
+            <p class="card-text">{{mobil.description }}</p>
+            <p><b>{{mobil.pricePerDay}},- /hari</b></p>
+            <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}"
+              class="btn shadow-none description-button w-100">Detail</a>
           </div>
         </div>
+        {% endfor %} {% endcomment %}
+        {% for testi in ratings %}
+        <div class="card mb-3 shadow-sm" style="width: 15.80%; margin: 0 5px">
+          <img src="{{testi.id_mobil.image1.url}}" class="card-img-top mt-3" alt="..."
+            style="height: 170px; width: 170px">
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ testi.id_mobil.name }}</h5>
+            <p>
+              {% with ''|center:testimonial.rating as range %}
+              {% for i in range %}
+              <label class="text-warning starate">★</label>
+              {% endfor %}
+              {% endwith %}
+            </p>
+            <p class="card-text">{{testi.contentTestimonial}}</p>
+          </div>
+        </div>
+        {% endfor %}
         <!-- Repeat the card div for more cards as needed -->
       </div>
     </div>

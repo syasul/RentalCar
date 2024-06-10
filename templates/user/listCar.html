@@ -9,52 +9,38 @@
 <main class="flex-fill">
   <div class="row">
     <div class="col-2">
-      <div class="header-filter">Showing <span>4</span> Car</div>
-      <div class="categories-section">
-        <div class="header-category">Categories</div>
-        <div class="category-group">
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Convertible</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Coupe</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Sedan</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Hatchback</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">SUV</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">MPV</label>
+      <form method="GET" id="filterForm">
+        <div class="header-filter">Showing <span class="span">{{mobils_count}}</span> Car</div>
+        <div class="categories-section">
+          <div class="header-category">Categories</div>
+          <div class="category-group">
+            {% for category in categories %}
+            <div class="form-check">
+              <input class="form-check-input shadow-none" type="checkbox" name="category" value="{{ category }}" id="flexCheck{{ category }}" {% if category in selected_categories %}checked{% endif %}>
+              <label class="form-check-label" for="flexCheck{{ category }}">{{ category }}</label>
+            </div>
+            {% endfor %}
           </div>
         </div>
-      </div>
-      <div class="transmission-section">
-        <div class="header-transmission">Transmission</div>
-        <div class="transmission-group">
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Automatic</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input shadow-none" type="checkbox" value="" id="flexCheckDefault">
-            <label class="form-check-label" for="flexCheckDefault">Manual</label>
+        <div class="transmission-section">
+          <div class="header-transmission">Transmission</div>
+          <div class="transmission-group">
+            <div class="form-check">
+              <input class="form-check-input shadow-none" type="checkbox" name="transmission" value="Automatic" id="flexCheckAutomatic" {% if "Automatic" in selected_transmissions %}checked{% endif %}>
+              <label class="form-check-label" for="flexCheckAutomatic">Automatic</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input shadow-none" type="checkbox" name="transmission" value="Manual" id="flexCheckManual" {% if "Manual" in selected_transmissions %}checked{% endif %}>
+              <label class="form-check-label" for="flexCheckManual">Manual</label>
+            </div>
           </div>
         </div>
-      </div>
+        <button type="submit" class="btn button-filter mt-3 shadow-none w-100 mt-3">Filter</button>
+      </form>
     </div>
     <div class="col-10">
       <div class="row justify-content-start">
+        {% if mobils %}
         {% for mobil in mobils %}
         <!-- card -->
         <div class="card mb-3 shadow-sm" style="width: 21%; margin: 0 5px">
@@ -62,12 +48,15 @@
           <div class="card-body">
             <h5 class="card-title">{{mobil.name}}</h5>
             <p class="card-text">{{mobil.description }}</p>
-            <p><b>Rp. {{mobil.pricePerDay}},-</b></p>
+            <p><b>{{mobil.pricePerDay}},- /hari</b></p>
             <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}"
               class="btn shadow-none description-button w-100">Detail</a>
           </div>
         </div>
         {% endfor %}
+        {% else %}
+        <p class="text-center align-middle w-100">not found</p>
+        {% endif %}
       </div>
     </div>
   </div>

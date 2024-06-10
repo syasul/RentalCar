@@ -11,11 +11,15 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import sys
 import os
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+sys.path.append(str(BASE_DIR / 'utils'))
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,8 +47,14 @@ INSTALLED_APPS = [
     'pesanan',
     'user',
     'fontawesomefree',
+    'django_extensions',
     'testi'
 ]
+
+GRAPH_MODELS ={
+    'all_applications': True,
+    'graph_models': True,
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

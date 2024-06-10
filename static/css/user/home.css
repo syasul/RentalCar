@@ -98,10 +98,12 @@ footer {
     line-height: 10px;
 }
 
-.sections .newCar .row .card .card-body .card-text {
+.row .card .card-body .card-text {
     padding-left: 0px;
     padding-right: 0px;
     line-height: 15px;
+    height: 30px;
+    overflow: clip;
 }
 
 .sections .newCar .row .card .card-body .description-button {

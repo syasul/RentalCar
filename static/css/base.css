@@ -17,3 +17,23 @@
     font-weight: 400;
     /* Hilangkan outline default */
 }
+
+.btn-login,
+.btn-login:focus,
+.btn-login:hover,
+.btn-login:active {
+    background-color: #7B66FF;
+    color: white;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.btn-logout,
+.btn-logout:focus {
+    font-weight: bold;
+    margin-left: 10px;
+}

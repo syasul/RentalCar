@@ -12,7 +12,7 @@
             <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
                     <div class="card-body col-8">
-                        <h5 class="card-title">3</h5>
+                        <h5 class="card-title">{{ user_count }}</h5>
                         <p class="card-text">Total User</p>
                     </div>
                     <div class="col-4 d-flex align-items-center justify-content-center">
@@ -25,7 +25,7 @@
             <div class="card" style="background: #04C3FB; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
                     <div class="card-body col-8">
-                        <h5 class="card-title">3</h5>
+                        <h5 class="card-title">{{ mobils_count }}</h5>
                         <p class="card-text">Total Car</p>
                     </div>
                     <div class="col-4 d-flex align-items-center justify-content-center">
@@ -38,12 +38,11 @@
             <div class="card" style="background: #09AD95; color: white;">
                 <div class="d-flex align-items-center">
                     <div class="card-body col-8">
-                        <h5 class="card-title">3</h5>
+                        <h5 class="card-title">{{ income_count }}</h5>
                         <p class="card-text">Total Income</p>
                     </div>
                     <div class="col-4 d-flex align-items-center justify-content-center">
-                        <img src="{% static 'img/dollar.png' %}" alt="Income Image" class="img-fluid"
-                            style="width: 50px;">
+                        <img src="{% static 'img/dollar.png' %}" alt="Income Image" class="img-fluid" style="width: 50px;">
                     </div>
                 </div>
             </div>
@@ -52,12 +51,11 @@
             <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
                     <div class="card-body col-8">
-                        <h5 class="card-title">3</h5>
+                        <h5 class="card-title">{{ order_count }}</h5>
                         <p class="card-text">Total Order</p>
                     </div>
                     <div class="col-4 d-flex align-items-center justify-content-center">
-                        <img src="{% static 'img/refresh.png' %}" alt="Order Image" class="img-fluid"
-                            style="width: 50px;">
+                        <img src="{% static 'img/refresh.png' %}" alt="Order Image" class="img-fluid" style="width: 50px;">
                     </div>
                 </div>
             </div>
@@ -66,41 +64,51 @@
             <div class="card" style="background: #6C5FFD; color: white;" width="19rem">
                 <div class="d-flex align-items-center">
                     <div class="card-body col-8">
-                        <h5 class="card-title">3</h5>
+                        <h5 class="card-title">{{ return_order_count }}</h5>
                         <p class="card-text">Total Feedback</p>
                     </div>
                     <div class="col-4 d-flex align-items-center justify-content-center">
-                        <img src="{% static 'img/refresh.png' %}" alt="Feedback Image" class="img-fluid"
-                            style="width: 50px;">
+                        <img src="{% static 'img/refresh.png' %}" alt="Feedback Image" class="img-fluid" style="width: 50px;">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- tabel -->
+    {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+    <!-- Table -->
     <div class="tabel shadow">
         <div class="row">
             <h4>Data</h4>
             <hr>
             <p>Filter Tanggal</p>
-            <div class="d-flex mb-3">
-                <div class="col-sm-2">
-                    <input type="datetime" class="form-control shadow-none" id="firstName" placeholder="tanggal awal" value=""
-                        required>
+            <form method="GET" action="{% url 'dashboard' %}">
+                <div class="d-flex mb-3">
+                    <div class="col-sm-2">
+                        <input type="date" class="form-control shadow-none" name="start_date" placeholder="Tanggal awal" required>
+                    </div>
+                    <div class="col-sm-2 mx-2">
+                        <input type="date" class="form-control shadow-none" name="end_date" placeholder="Tanggal akhir" required>
+                    </div>
+                    <div class="col-sm-4 d-flex align-items-center pt-1">
+                        <button class="btn shadow-none filter d-flex align-items-center" type="submit">
+                            <i class="fa-solid fa-filter me-2"></i>Filter
+                        </button>
+                        <a href="{% url 'generate_pdf' %}" class="btn shadow-none btn-pdf d-flex align-items-center ms-2">
+                            <i class="fa-regular fa-file-pdf me-2"></i>PDF
+                        </a>
+                    </div>
                 </div>
-                <div class="col-sm-2 mx-2">
-                    <input type="datetime" class="form-control shadow-none" id="firstName" placeholder="tanggal akhir" value=""
-                        required>
-                </div>
-                <div class="col-sm-2">
-                    <button class="btn btn-info" type="button">Filter</button>
-                    <button class="btn btn-danger" type="button">Pdf</button>
-                </div>
-                <div class="col-sm-2">
-
-                </div>
-            </div>
+            </form>
             <div class="col-12 col-xl-12 mb-4 mb-lg-0">
                 <div class="card">
                     <div class="card-body">
@@ -108,25 +116,32 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class=" text-center">No</th>
-                                        <th class=" text-center">Order</th>
-                                        <th class=" text-center">Car</th>
-                                        <th class=" text-center">Price</th>
-                                        <th class=" text-center">Check in</th>
-                                        <th class=" text-center">Check out</th>
-                                        <th class=" text-center">Total Harga</th>
+                                        <th class="text-center">Order</th>
+                                        <th class="text-center">Car</th>
+                                        <th class="text-center">Price</th>
+                                        <th class="text-center">Check-in</th>
+                                        <th class="text-center">Check-out</th>
+                                        <th class="text-center">Total Harga</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% if order_items %}
+                                    {% for order in order_items %}
                                     <tr>
-                                        <th class="text-center">17371705</th>
-                                        <td class="text-center">Volt Premium Bootstrap 5 Dashboard</td>
-                                        <td class="text-center">johndoe@gmail.com</td>
-                                        <td class="text-center">€61.11</td>
-                                        <td class="text-center">Aug 31 2020</td>
-                                        <td class="text-center">Des 30 2020</td>
-                                        <td class="text-center">00000000001</td>
+                                        <td class="text-center">{{ order.id }}</td>
+                                        <td class="text-center">{{ order.id_mobils.name }}</td>
+                                        <td class="text-center">{{ order.id_mobils.pricePerDay }}</td>
+                                        <td class="text-center">{{ order.start_date }}</td>
+                                        <td class="text-center">{{ order.end_date }}</td>
+                                        <td class="text-center">{{ order.grand_total }}</td>
                                     </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td class="text-center" colspan="9">tidak ditemukan</td>
+                                    </tr>
+                                    {% endif %}
+                                    
                                 </tbody>
                             </table>
                         </div>

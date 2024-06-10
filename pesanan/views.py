@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from datetime import datetime
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 
+from utils.currency import currency
 from mobil.models import Mobils
 from pesanan.models import Order, OrderItem, ReturnOrder
 from testi.models import TestimonialRating
@@ -28,8 +30,12 @@ def setRentalDates(request, mobil_id):
 
 @login_required
 def formCheckout(request, mobil_id):
-    mobils = get_object_or_404(Mobils, id=mobil_id)
     current_user = request.user
+    
+    if not request.user.is_authenticated:
+        return redirect("user:loginUser")
+    
+    mobils = get_object_or_404(Mobils, id=mobil_id)
     check_in = request.session.get('check_in')
     check_out = request.session.get('check_out')
 
@@ -70,24 +76,62 @@ def formCheckout(request, mobil_id):
 
         mobils.stock -= 1
         mobils.save()
+        
+        
 
         request.session.pop('check_in', None)
         request.session.pop('check_out', None)
 
         messages.success(request, 'Order berhasil dibuat!')
         return redirect('pesanan:MyOrder')
+    
+    price = currency(mobils.pricePerDay)
 
-    return render(request, 'user/formCheckout.html', {'mobils': mobils, 'user': current_user, 'totalPrice': total_price})
+    context = {
+        'mobils': mobils,
+        'price': price,
+        'current_user': current_user,
+        'check_in': check_in,
+        'check_out': check_out,
+        'total_price': currency(total_price)
+    }
+    return render(request, 'user/formCheckout.html', context)
+
 
 @login_required
 def MyOrder(request):
     current_user = request.user
+    
+    if not request.user.is_authenticated:
+        return redirect("user:loginUser")
+    
     orders = Order.objects.filter(id_user=current_user).order_by('-start_date')
-    return render(request, 'user/pesananSaya.html', {'orders': orders})
+    
+    for order in orders:
+        order.grand_total = currency(order.grand_total)
+        order.fine = currency(order.fine)
+
+
+    return render(request, 'user/pesananSaya.html', {'orders': orders, 'current_user': current_user})
 
 def manageOrder(request):
+    current_user = request.user
+    
+    if not request.user.is_superuser:
+        return redirect("user:loginAdmin")
+    
+    search_query = request.GET.get('search', '')
     orders = Order.objects.all()
-    return render(request, 'admin/manageOrder.html', {'orders': orders})
+
+    if search_query:
+        orders = orders.filter(id_user__username__icontains=search_query)
+
+    context = {
+        'orders': orders,
+        'search_query': search_query,
+    }
+    return render(request, 'admin/manageOrder.html', context)
+
 
 @login_required
 def updateStatus(request, id_order):
@@ -100,6 +144,11 @@ def updateStatus(request, id_order):
     
 @login_required
 def returnOrder(request, id_order):
+    current_user = request.user
+    
+    if not request.user.is_authenticated:
+        return redirect("user:loginUser")
+    
     if request.method == 'POST':
         order = get_object_or_404(Order, id=id_order)
         orderItem = get_object_or_404(OrderItem, id_order=order)  # Perbaikan di sini
@@ -141,10 +190,27 @@ def returnOrder(request, id_order):
 
 @login_required
 def feedbackOrder(request):
-    returnOrders = ReturnOrder.objects.all()
+    
+    current_user = request.user
+    
+    if not request.user.is_superuser:
+        return redirect("user:loginAdmin")
+    
+    search_query = request.GET.get('search', '')
     ratings = TestimonialRating.objects.all()
-    data = list(returnOrders) + list(ratings)
-    return render(request, 'admin/feedbackOrder.html', {'ratings': ratings})
+
+    if search_query:
+        ratings = ratings.filter(
+            Q(id_user__username__icontains=search_query) |
+            Q(id_mobil__name__icontains=search_query) |
+            Q(contentTestimonial__icontains=search_query)
+        )
+
+    context = {
+        'ratings': ratings,
+        'search_query': search_query,
+    }
+    return render(request, 'admin/feedbackOrder.html', context)
 
 @login_required
 def updateStatusFeedbackOrder(request,id_order):

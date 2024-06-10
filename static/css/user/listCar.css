@@ -84,7 +84,7 @@ body .row {
     border-radius: 15px;
 }
 
-.row .card .card-body {
+.sections .newCar .row .card .card-body {
     padding-left: 0px;
     padding-right: 0px;
     line-height: 10px;
@@ -94,6 +94,8 @@ body .row {
     padding-left: 0px;
     padding-right: 0px;
     line-height: 15px;
+    height: 30px;
+    overflow: clip;
 }
 
 .row .card .card-body .description-button {
@@ -101,4 +103,18 @@ body .row {
     color: white;
     font-weight: 500;
     border-radius: 20px;
+}
+
+/* height content if value null */
+.col-10 .row {
+    height: 220px;
+}
+
+
+/* button filter */
+.button-filter {
+    background-color: #7B66FF;
+    border-radius: 15px;
+    color: white;
+    font-weight: 600;
 }

@@ -13,15 +13,15 @@
         <div class="row">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <h4 class="col-sm-2">Data</h4>
-                
             </div>
 
             <hr>
             <div class="d-flex mb-3 justify-content-end w-80">
                 <div class="col-sm-2 position-relative">
-                    
-                    <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y pe-3"></i>
-                    <input type="text" class="form-control formsearch shadow-none" id="firstName" placeholder="Search" value="" required>
+                    <form method="GET" action="{% url 'pesanan:feedbackOrder' %}">
+                        <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y pe-3"></i>
+                        <input type="text" class="form-control formsearch shadow-none" id="firstName" name="search" placeholder="Search" value="{{ search_query }}" required>
+                    </form>
                 </div>
             </div>
 
@@ -32,48 +32,53 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class=" text-center">Nama Penyewa</th>
-                                        <th class=" text-center">Nama Mobil</th>
-                                        <th class=" text-center">Rating</th>
-                                        <th class=" text-center">Testimoni</th>
-                                        <th class=" text-center">Foto Pembayaran Denda</th>
-                                        <th class=" text-center">Status</th>
+                                        <th class="text-center">Nama Penyewa</th>
+                                        <th class="text-center">Nama Mobil</th>
+                                        <th class="text-center">Rating</th>
+                                        <th class="text-center">Testimoni</th>
+                                        <th class="text-center">Foto Pembayaran Denda</th>
+                                        <th class="text-center">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% if ratings %}
                                     {% for testimonial in ratings %}
-                    <tr>
-                        <td class="text-center">{{ testimonial.id_user.username }}</td>
-                        <td class="text-center">{{ testimonial.id_mobil.name }}</td>
-                        <td class="text-center rating">
-                            {% with ''|center:testimonial.rating as range %}
-                            {% for i in range %}
-                                <label class="text-warning starate">★</label>
-                            {% endfor %}
-                            {% endwith %}
-                            
-                        </td>
-                        <td class="text-center">{{ testimonial.contentTestimonial }}</td>
-                        <td class="text-center">
-                            {% if testimonial.id_return_order.photo_payment_fine %}
-                            <img class="rounded" src="{{ testimonial.id_return_order.photo_payment_fine.url }}" alt="Product Image" style="max-width: 100px;">
-                        {% else %}
-                            <span>No Image</span>
-                        {% endif %}
-                        </td>
-                        <td class="text-center">
-                            <form action="{% url 'pesanan:updateStatusFeedbackOrder' id_order=testimonial.id %}" method="POST">
-                                {% csrf_token %}
-                                <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
-                                    <option value="Belum Terkonfirmasi" {% if testimonial.status == 'Belum Terkonfirmasi' %} selected {% endif %}>Belum Terkonfirmasi</option>
-                                    <option value="Terkonfirmasi" {% if testimonial.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
-                                    <option value="Dikirim" {% if testimonial.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
-                                </select>
-                            </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-
+                                    <tr>
+                                        <td class="text-center">{{ testimonial.id_user.username }}</td>
+                                        <td class="text-center">{{ testimonial.id_mobil.name }}</td>
+                                        <td class="text-center rating">
+                                            {% with ''|center:testimonial.rating as range %}
+                                            {% for i in range %}
+                                            <label class="text-warning starate">★</label>
+                                            {% endfor %}
+                                            {% endwith %}
+                                        </td>
+                                        <td class="text-center">{{ testimonial.contentTestimonial }}</td>
+                                        <td class="text-center">
+                                            {% if testimonial.id_return_order.photo_payment_fine %}
+                                            <img class="rounded" src="{{ testimonial.id_return_order.photo_payment_fine.url }}" alt="Product Image" style="max-width: 100px;">
+                                            {% else %}
+                                            <span>No Image</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-center">
+                                            <form action="{% url 'pesanan:updateStatusFeedbackOrder' id_order=testimonial.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
+                                                    <option value="Belum Terkonfirmasi" {% if testimonial.status == 'Belum Terkonfirmasi' %} selected {% endif %}>Belum Terkonfirmasi</option>
+                                                    <option value="Terkonfirmasi" {% if testimonial.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
+                                                    <option value="Dikirim" {% if testimonial.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
+                                                </select>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td class="text-center" colspan="6">tidak ditemukan</td>
+                                    </tr>
+                                    {% endif %}
+                                    
                                 </tbody>
                             </table>
                         </div>

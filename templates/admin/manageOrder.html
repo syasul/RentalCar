@@ -10,18 +10,27 @@
 
     <!-- tabel -->
     <div class="tabel shadow">
+        {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
         <div class="row">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <h4 class="col-sm-2">Data</h4>
-                
             </div>
 
             <hr>
             <div class="d-flex mb-3 justify-content-end w-80">
                 <div class="col-sm-2 position-relative">
-                    
-                    <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y pe-3"></i>
-                    <input type="text" class="form-control formsearch shadow-none" id="firstName" placeholder="Search" value="" required>
+                    <form method="GET" action="{% url 'pesanan:manageOrder' %}">
+                        <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y pe-3"></i>
+                        <input type="text" class="form-control formsearch shadow-none" id="firstName" name="search" placeholder="Search" value="{{ search_query }}" required>
+                    </form>
                 </div>
             </div>
 
@@ -32,45 +41,48 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th class=" text-center">Nama Penyewa</th>
-                                        <th class=" text-center">Check In</th>
-                                        <th class=" text-center">Check Out</th>
-                                        <th class=" text-center">Denda</th>
-                                        <th class=" text-center">Total Harga</th>
-                                        <th class=" text-center">Foto Transfer</th>
-                                        <th class=" text-center">Foto KK</th>
-                                        <th class=" text-center">Foto KTP</th>
-                                        <th class=" text-center">Alamat</th>
-                                        <th class=" text-center">Status</th>
+                                        <th class="text-center">Nama Penyewa</th>
+                                        <th class="text-center">Check In</th>
+                                        <th class="text-center">Check Out</th>
+                                        <th class="text-center">Denda</th>
+                                        <th class="text-center">Total Harga</th>
+                                        <th class="text-center">Foto Transfer</th>
+                                        <th class="text-center">Foto KK</th>
+                                        <th class="text-center">Foto KTP</th>
+                                        <th class="text-center">Alamat</th>
+                                        <th class="text-center">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    {% if orders %}
                                     {% for order in orders %}
                                     <tr>
-                                        <th class="text-center">{{order.id_user.username}}</th>
-                                        <td class="text-center">{{order.start_date}}</td>
-                                        <td class="text-center">{{order.end_date}}</td>
-                                        <td class="text-center">{{order.fine}}</td>
-                                        <td class="text-center">{{order.grand_total}}</td>
-                                        <td class="text-center"><img src="{{ order.payment_receipt_image_path.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded "></td>
-                                        <td class="text-center"><img src="{{ order.photo_kk.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded "></td>
-                                        <td class="text-center"><img src="{{ order.photo_ktp.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded "></td>
+                                        <th class="text-center">{{ order.id_user.username }}</th>
+                                        <td class="text-center">{{ order.start_date }}</td>
+                                        <td class="text-center">{{ order.end_date }}</td>
+                                        <td class="text-center">{{ order.fine }}</td>
+                                        <td class="text-center">{{ order.grand_total }}</td>
+                                        <td class="text-center"><img src="{{ order.payment_receipt_image_path.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded"></td>
+                                        <td class="text-center"><img src="{{ order.photo_kk.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded"></td>
+                                        <td class="text-center"><img src="{{ order.photo_ktp.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded"></td>
                                         <td class="text-center">{{ order.address }}</td>
-                
                                         <td class="text-center">
                                             <form action="{% url 'pesanan:updateStatus' id_order=order.id %}" method="POST">
-                                              {% csrf_token %}
-                                              <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
-                                                <option value="Belum Tekonfirmasi" {% if order.status == 'Belum Tekonfirmasi' %} selected {% endif %}>Belum Tekonfirmasi</option>
-                                                <option value="Terkonfirmasi" {% if order.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
-                                                <option value="Dikirim" {% if order.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
-                                              </select>
+                                                {% csrf_token %}
+                                                <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
+                                                    <option value="Belum Tekonfirmasi" {% if order.status == 'Belum Tekonfirmasi' %} selected {% endif %}>Belum Tekonfirmasi</option>
+                                                    <option value="Terkonfirmasi" {% if order.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
+                                                    <option value="Dikirim" {% if order.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
+                                                </select>
                                             </form>
-                                          </td> 
+                                        </td>
                                     </tr>
                                     {% endfor %}
-                                        
+                                    {% else %}
+                                    <tr>
+                                        <td class="text-center" colspan="10">tidak ditemukan</td>
+                                    </tr>
+                                    {% endif %}
                                     
                                 </tbody>
                             </table>

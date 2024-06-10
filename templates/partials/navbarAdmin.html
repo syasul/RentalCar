@@ -6,7 +6,7 @@
     </button>
 
     <div style="padding: 5px;" class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
-      <a class="navbar-brand col-lg-3 me-0 fw-bold" href="{% url 'dashboard' %}">RENTCAR</a>
+      <a class="navbar-brand col-lg-3 me-0 fw-bold shadow-none" href="{% url 'dashboard' %}">RENTCAR</a>
       <ul class="navbar-nav col-lg-9 justify-content-lg-end" >
         <li class="nav-item">
           <a class="nav-link" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
@@ -20,8 +20,8 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'pesanan:feedbackOrder' %}">Master FeedBack</a>
         </li>
-        <li class="nav-item ml-5">
-          <a class="nav-link" href="{% url 'user:logout' %}"><i class="fa-solid fa-arrow-right-from-bracket text-danger"></i></a>
+        <li class="nav-item">
+          <a class="nav-link btn-logout" href="{% url 'user:logout' %}"><i class="fa-solid fa-arrow-right-from-bracket text-danger"></i></a>
         </li>
         
         
