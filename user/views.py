@@ -11,6 +11,11 @@ def loginAdmin(request):
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')
+        
+        if not username or not password:
+            messages.error(request, 'Username and Password Cannot be Empty ')
+            return redirect('user:loginAdmin')
+        
         user = authenticate(request, username=username, password=password)
         if user is not None:
             if user.is_superuser:
@@ -30,6 +35,11 @@ def loginUser(request):
     if request.method == "POST":
         email = request.POST.get('email')
         password = request.POST.get('password')
+        
+        if not email or not password:
+            messages.error(request, 'Email and Password Cannot be Empty ')
+            return redirect('user:loginUser')
+        
         try:
             # Retrieve the user by email
             user = User.objects.get(email=email)
@@ -43,9 +53,12 @@ def loginUser(request):
                     return redirect('home')
                 else:
                     print('Invalid credentials')
+                    messages.error(request, 'Invalid Credentials.')
             else:
                 print('Invalid email or password')
+                messages.error(request, 'Invalid email or password.')
         except User.DoesNotExist:
+            messages.error(request, 'Invalid email or password.')
             print('Invalid email or password')
         except Exception as e:
             print('Error occurred: {e}')
@@ -59,6 +72,10 @@ def registerUser(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
         hash_password = make_password(password)
+        
+        if not firstName or not lastName or not email or not password:
+            messages.error(request, 'Form Cannot be Empty ')
+            return redirect('user:registerUser')
         
         try:
             # Check if email already exists
@@ -91,6 +108,7 @@ def logout(request):
     current_user = request.user.role if request.user.is_authenticated else None
     logout_user(request)
     if current_user is not None and current_user == "User":
+        messages.success(request, 'Berhasil Logout!!')
         return redirect('home')
     else:
         return redirect('user:loginAdmin')

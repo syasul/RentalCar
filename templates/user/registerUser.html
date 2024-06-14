@@ -26,15 +26,7 @@
           <input type="password" class="form-control shadow-none" id="floatingPassword" placeholder="Password" name="password">
 
         </div>
-        {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
+        {% include 'widgets/flasher.html' %}
         <button class="w-100 mb-2 btn btn-register btn-lg shadow-none" type="submit">Register</button>
 
       </form>

@@ -8,15 +8,7 @@
 {% block contents %}
 {% include '../partials/navbarUser.html' %}
 <main class="wrapper">
-  {% if messages %}
-                <div class="messages">
-                    {% for message in messages %}
-                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        <strong>{{ message }}</strong>
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
+  {% include 'widgets/flasher.html' %}
   <div class="row">
     <div class="col-md-9 mb-3">
       <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">

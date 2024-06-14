@@ -68,6 +68,8 @@ def createMobil(request):
             
         )
         
+        messages.success(request, "Berhasil menambahkan data mobil")
+        
         return redirect("mobil:masterMobil")
     return redirect('mobil:masterMobil')
 
@@ -95,11 +97,11 @@ def updateMobil(request, id):
         mobil.typeCar = request.POST.get('typecar')
         mobil.seat = request.POST.get('seatOfCar')
         mobil.pricePerDay = request.POST.get('carPrice')
+        messages.success(request, "Update berhasil")
         mobil.save()
         return redirect("mobil:masterMobil")
 
     return redirect('mobil:masterMobil')
-
 
 def deleteMobil(request, id):
     current_user = request.user
@@ -109,7 +111,7 @@ def deleteMobil(request, id):
     
     mobil = get_object_or_404(Mobils, pk=id)
     if request.method == 'POST':
-        
+        messages.success(request, "Data Mobil Berhasil dihapus")
         mobil.delete()
         
     

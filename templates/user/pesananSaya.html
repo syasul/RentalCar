@@ -11,18 +11,10 @@
 
         {% if orders %}
         <div class="row d-flex justify-content-center">
-            {% if messages %}
-                    <div class="messages">
-                        {% for message in messages %}
-                        <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            <strong>{{ message }}</strong>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
+        {% include 'widgets/flasher.html' %}
 
-                    <h2 class="text-center mb-3 ">My Orders</h2>
-                    {% for order in orders %}
+        <h2 class="text-center mb-3 ">My Orders</h2>
+        {% for order in orders %}
         <div class="col-md-7 mb-4 ">
             <div class="card shadow">
                 <div class="cardbody">

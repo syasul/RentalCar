@@ -16,13 +16,9 @@ def setRentalDates(request, mobil_id):
         check_in = request.POST.get('checkIn')
         check_out = request.POST.get('checkOut')
         
-        if not check_in:
+        if not check_in or not check_out:
             messages.warning(request, "check in tidak boleh kosong")
             redirect('mobil:detailCar', mobil_id=mobil_id)
-        if not check_out:
-            messages.warning(request, "check out tidak boleh kosong")
-            redirect('mobil:detailCar', mobil_id=mobil_id)
-        
         
         start_date = datetime.strptime(check_in, '%Y-%m-%d')
         end_date = datetime.strptime(check_out, '%Y-%m-%d')
@@ -64,6 +60,11 @@ def formCheckout(request, mobil_id):
         photo_kk = request.FILES['uploadKK']
         photo_ktp = request.FILES['uploadKTP']
         payment_receipt_image_path = request.FILES['uploadPurchace']
+        
+        if not telephone or not address or not photo_kk or not photo_ktp:
+            messages.error("Please Check your Form, Because Cant be Empty")
+            return redirect('pesanan:formCheckout', mobil_id=mobil_id)
+            
 
         order = Order.objects.create(
             id_user=current_user,
@@ -164,6 +165,11 @@ def returnOrder(request, id_order):
         # Get testimonial data
         rating = request.POST.get('rating')
         content_testimonial = request.POST.get('contentTestimonial')
+        
+        if not rating or not content_testimonial:
+            messages.error(request, "Rating or Testimoni Cannott be null")
+            return redirect('pesanan:MyOrder')
+            
         
         # Get return order image
         image = request.FILES['image']
