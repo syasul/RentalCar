@@ -19,7 +19,7 @@
         {% if user.is_authenticated %}
         <li class="nav-item dropdown shadow-none ml-3">
           <a class="nav-link dropdown-toggle " href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Hi, {{current_user}}
+            Hi, {{current_user.username}}
           </a>
           <ul class="dropdown-menu"  aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item " href="{% url 'pesanan:MyOrder' %}">My Order</a></li>

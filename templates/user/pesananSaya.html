@@ -67,7 +67,7 @@
                         <div class="col text-center">
                             <div class="col header-card">{{ item.id_mobils.name }}</div>
                         </div>
-                        {% endfor %}
+                        
                         <div class="col text-center">
                             <div class="col header-card">CHECK IN</div>
                             <div class="col value-card">{{ order.start_date }}</div>
@@ -77,6 +77,10 @@
                             <div class="col value-card">{{ order.end_date }}</div>
                         </div>
                         <div class="col text-center">
+                            <div class="col header-card">QUANTITY</div>
+                            <div class="col value-card">{{ item.quantity }}</div>
+                        </div>
+                        <div class="col text-center">
                             <div class="col header-card">GRAND TOTAL</div>
                             <div class="col value-card">{{ order.grand_total }}</div>
                         </div>
@@ -84,6 +88,7 @@
                             <div class="col header-card">FINE</div>
                             <div class="col value-card">{{ order.fine }}</div>
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

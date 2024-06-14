@@ -17,7 +17,7 @@
         <div class="card mb-3">
             <div class="row no-gutters d-flex justify-content-between align-items-center">
                 <div class="col-md-3">
-                    <img src="{{ mobils.image1.url }}" class="card-img" alt="{{ mobils.name }}">
+                    <img src="{{ mobils.image1.url }}" class="card-img" alt="{{ mobils.name }}" height="100px">
                 </div>
                 <div class="col-md-2 text-center">
                     <div class="col header-card">{{ mobils.name }}</div>
@@ -30,6 +30,10 @@
                 <div class="col-md-2 text-center">
                     <div class="col header-card">CHECK OUT</div>
                     <div class="col value-card">{{ check_out }}</div>
+                </div>
+                <div class="col-md-2 text-center">
+                    <div class="col header-card">QUANTITY</div>
+                    <div class="col value-card">{{ quantity }}</div>
                 </div>
                 <div class="col-md-2 text-center">
                     <div class="col header-card">TOTAL</div>

@@ -57,13 +57,23 @@
       </div>
       <form method="POST" action="{% url 'pesanan:setRentalDates' mobil_id=mobils.id %}">
         {% csrf_token %}
-        <div class="mb-2 form-group">
-          <label for="checkIn" class="form-label">Check In</label>
-          <input type="date" class="form-control shadow-none" id="checkIn" name="checkIn">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-2 form-group">
+              <label for="checkIn" class="form-label">Check In</label>
+              <input type="date" class="form-control shadow-none" id="checkIn" name="checkIn">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-2 form-group">
+              <label for="checkOut" class="form-label">Check Out</label>
+              <input type="date" class="form-control shadow-none" id="checkOut" name="checkOut">
+            </div>
+          </div>
         </div>
         <div class="mb-2 form-group">
-          <label for="checkOut" class="form-label">Check Out</label>
-          <input type="date" class="form-control shadow-none" id="checkOut" name="checkOut">
+          <label for="quantity" class="form-label">Quantity</label>
+          <input type="number" class="form-control shadow-none" id="quantity" name="quantity" placeholder="Quantity">
         </div>
         {% if mobils.stock != 0 %}
         <button class="btn shadow-none book-nows align-self-end" type="submit">

@@ -53,6 +53,7 @@ main {
 .col-2 img {
     border-radius: 10px;
     padding-left: 10px;
+    height: 100px;
 }
 
 /* rate */

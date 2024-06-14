@@ -44,10 +44,11 @@
         {% for mobil in mobils %}
         <!-- card -->
         <div class="card mb-3 shadow-sm" style="width: 21%; margin: 0 5px">
-          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 150px;">
+          <img src="{{mobil.image1.url}}" class="card-img-top mt-3" alt="..." style="height: 120px;">
           <div class="card-body">
             <h5 class="card-title">{{mobil.name}}</h5>
-            <p class="card-text">{{mobil.description }}</p>
+            <p class="card-text">{{mobil.description}}</p>
+            <div class="card-stock">Stock : {{mobil.stock}}</div>
             <p><b>{{mobil.pricePerDay}},- /hari</b></p>
             <a href="{% url 'mobil:detailCar' mobil_id=mobil.id %}"
               class="btn shadow-none description-button w-100">Detail</a>

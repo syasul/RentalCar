@@ -12,12 +12,23 @@ from testi.models import TestimonialRating
 
 @login_required
 def setRentalDates(request, mobil_id):
+    mobils = get_object_or_404(Mobils, id=mobil_id)
+    
     if request.method == 'POST':
         check_in = request.POST.get('checkIn')
         check_out = request.POST.get('checkOut')
+        quantity = request.POST.get('quantity')
         
-        if not check_in or not check_out:
-            messages.warning(request, "check in tidak boleh kosong")
+        if int(quantity) < 0:
+            messages.error(request, "Quantity tidak boleh 0")
+            return redirect('mobil:detailCar', mobil_id=mobil_id)
+            
+        if int(quantity) > mobils.stock:
+            messages.error(request, "Quantity melebihi jumlah Stock")
+            return redirect('mobil:detailCar', mobil_id=mobil_id)
+        
+        if not check_in or not check_out or not quantity:
+            messages.error(request, "Form Cannot be Empty")
             redirect('mobil:detailCar', mobil_id=mobil_id)
         
         start_date = datetime.strptime(check_in, '%Y-%m-%d')
@@ -30,6 +41,7 @@ def setRentalDates(request, mobil_id):
 
         request.session['check_in'] = check_in
         request.session['check_out'] = check_out
+        request.session['quantity'] = quantity
         return redirect('pesanan:formCheckout', mobil_id=mobil_id)
 
     return redirect('pesanan:formCheckout', mobil_id=mobil_id)
@@ -44,15 +56,16 @@ def formCheckout(request, mobil_id):
     mobils = get_object_or_404(Mobils, id=mobil_id)
     check_in = request.session.get('check_in')
     check_out = request.session.get('check_out')
+    quantity = request.session.get('quantity')
 
-    if not check_in or not check_out:
+    if not check_in or not check_out or not quantity:
         messages.error(request, 'Please select check-in and check-out dates first.')
         return redirect('mobil:detailCar', mobil_id=mobil_id)
 
     start_date = datetime.strptime(check_in, '%Y-%m-%d')
     end_date = datetime.strptime(check_out, '%Y-%m-%d')
     total_days = (end_date - start_date).days
-    total_price = total_days * mobils.pricePerDay
+    total_price = total_days * mobils.pricePerDay * int(quantity)
 
     if request.method == 'POST':
         telephone = request.POST.get('telephone')
@@ -82,14 +95,15 @@ def formCheckout(request, mobil_id):
         OrderItem.objects.create(
             id_order=order,
             id_mobils=mobils,
-            quantity=1
+            quantity=quantity
         )
 
-        mobils.stock -= 1
+        mobils.stock - int(quantity)
         mobils.save()
         
         request.session.pop('check_in', None)
         request.session.pop('check_out', None)
+        request.session.pop('quantity', None)
 
         messages.success(request, 'Order berhasil dibuat!')
         return redirect('pesanan:MyOrder')

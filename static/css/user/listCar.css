@@ -98,6 +98,13 @@ body .row {
     overflow: clip;
 }
 
+.row .card .card-body .card-stock {
+    padding-left: 0px;
+    padding-right: 0px;
+    line-height: 15px;
+    font-weight: 600;
+}
+
 .row .card .card-body .description-button {
     background-color: #96EFFF;
     color: white;
@@ -112,7 +119,10 @@ body .row {
 
 
 /* button filter */
-.button-filter {
+.button-filter,
+.button-filter:active,
+.button-filter:hover,
+.button-filter:focus {
     background-color: #7B66FF;
     border-radius: 15px;
     color: white;
