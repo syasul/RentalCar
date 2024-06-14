@@ -67,7 +67,7 @@ def registerUser(request):
                 return render(request, 'user/registerUser.html')
 
             user = User.objects.create(
-                username=firstName + lastName,
+                username=firstName +" "+lastName,
                 email=email,
                 password=hash_password,
                 text_password=password,

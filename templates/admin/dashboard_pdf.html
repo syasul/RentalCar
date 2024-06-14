@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Laporan Order</h1>
+    <table>
+        <thead>
+            <tr>
+                <th class="text-center">Order</th>
+                <th class="text-center">Car</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Check-in</th>
+                <th class="text-center">Check-out</th>
+                <th class="text-center">Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                {% for item in order.orderitem_set.all %}
+                    <tr>
+                        <td class="text-center">{{ order.id }}</td>
+                        <td class="text-center">{{ item.id_mobils.name }}</td>
+                        <td class="text-center">Rp. {{ item.id_mobils.pricePerDay }},-</td>
+                        <td class="text-center">{{ order.start_date }}</td>
+                        <td class="text-center">{{ order.end_date }}</td>
+                        <td class="text-center">Rp. {{ order.grand_total }},-</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

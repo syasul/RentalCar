@@ -8,6 +8,15 @@
 {% block contents %}
 {% include '../partials/navbarUser.html' %}
 <main class="wrapper">
+  {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="alert z-3 alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <strong>{{ message }}</strong>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
   <div class="row">
     <div class="col-md-9 mb-3">
       <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -48,6 +57,9 @@
       <div class="transmission">
         <div class="header">Transmission</div> {{mobils.transmission}}
       </div>
+      <div class="transmission">
+        <div class="header">Stock</div> {{mobils.stock}}
+      </div>
       <div class="type">
         <div class="header">Type</div>{{mobils.typeCar}}
       </div>
@@ -62,10 +74,10 @@
           <input type="date" class="form-control shadow-none" id="checkOut" name="checkOut">
         </div>
         {% if mobils.stock != 0 %}
-        <button class="btn shadow-none book-now align-self-end" type="submit">
+        <button class="btn shadow-none book-nows align-self-end" type="submit">
           Book</button>
         {% else %}
-        <button class="btn shadow-none book-now align-self-end disabled" type="submit">
+        <button class="btn shadow-none book-nows align-self-end disabled" type="submit">
           Book</button>
         {% endif %}
       </form>

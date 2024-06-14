@@ -55,8 +55,8 @@
                                         </td>
                                         <td class="text-center">{{ testimonial.contentTestimonial }}</td>
                                         <td class="text-center">
-                                            {% if testimonial.id_return_order.photo_payment_fine %}
-                                            <img class="rounded" src="{{ testimonial.id_return_order.photo_payment_fine.url }}" alt="Product Image" style="max-width: 100px;">
+                                            {% if testimonial.id_return_order.image %}
+                                            <img class="rounded" src="{{ testimonial.id_return_order.image.url }}" alt="Product Image" style="max-width: 100px;">
                                             {% else %}
                                             <span>No Image</span>
                                             {% endif %}

@@ -15,12 +15,22 @@ def setRentalDates(request, mobil_id):
     if request.method == 'POST':
         check_in = request.POST.get('checkIn')
         check_out = request.POST.get('checkOut')
+        
+        if not check_in:
+            messages.warning(request, "check in tidak boleh kosong")
+            redirect('mobil:detailCar', mobil_id=mobil_id)
+        if not check_out:
+            messages.warning(request, "check out tidak boleh kosong")
+            redirect('mobil:detailCar', mobil_id=mobil_id)
+        
+        
         start_date = datetime.strptime(check_in, '%Y-%m-%d')
         end_date = datetime.strptime(check_out, '%Y-%m-%d')
-
+        
         if start_date >= end_date:
             messages.error(request, 'Check-out date must be after check-in date.')
-            return redirect('pesanan:formCheckout', mobil_id=mobil_id)
+            return redirect('mobil:detailCar', mobil_id=mobil_id)
+            
 
         request.session['check_in'] = check_in
         request.session['check_out'] = check_out
@@ -77,8 +87,6 @@ def formCheckout(request, mobil_id):
         mobils.stock -= 1
         mobils.save()
         
-        
-
         request.session.pop('check_in', None)
         request.session.pop('check_out', None)
 
@@ -121,7 +129,7 @@ def manageOrder(request):
         return redirect("user:loginAdmin")
     
     search_query = request.GET.get('search', '')
-    orders = Order.objects.all()
+    orders = Order.objects.all().order_by('-updated_at')
 
     if search_query:
         orders = orders.filter(id_user__username__icontains=search_query)
@@ -151,14 +159,14 @@ def returnOrder(request, id_order):
     
     if request.method == 'POST':
         order = get_object_or_404(Order, id=id_order)
-        orderItem = get_object_or_404(OrderItem, id_order=order)  # Perbaikan di sini
+        orderItem = get_object_or_404(OrderItem, id_order=order)
         
         # Get testimonial data
         rating = request.POST.get('rating')
         content_testimonial = request.POST.get('contentTestimonial')
         
         # Get return order image
-        image = request.FILES.get('image')
+        image = request.FILES['image']
 
         # Create and save TestimonialRating
         if rating and content_testimonial:
@@ -170,8 +178,9 @@ def returnOrder(request, id_order):
             )
             testimonial.save()
 
-        # Create and save ReturnOrder
-        if image:
+        # Create and save ReturnOrder if there is a fine and image is provided
+        fine = order.fine
+        if fine > 0 and image:
             return_order = ReturnOrder(
                 id_order=order,
                 image=image,
@@ -183,10 +192,14 @@ def returnOrder(request, id_order):
                 # Handle validation error, e.g., missing photo_payment_fine
                 print(e)
                 return redirect('pesanan:MyOrder')
+        elif fine == 0:  # If fine is 0, no need to upload image
+            order.status = "Selesai"
+            order.save()
 
         return redirect('pesanan:MyOrder')
     else:
         return redirect('pesanan:MyOrder')
+
 
 @login_required
 def feedbackOrder(request):
@@ -197,7 +210,7 @@ def feedbackOrder(request):
         return redirect("user:loginAdmin")
     
     search_query = request.GET.get('search', '')
-    ratings = TestimonialRating.objects.all()
+    ratings = TestimonialRating.objects.all().order_by('-updated_at')
 
     if search_query:
         ratings = ratings.filter(
@@ -219,6 +232,6 @@ def updateStatusFeedbackOrder(request,id_order):
         order = ReturnOrder.objects.get(pk=id_order)
         order.status = status
         order.save()
-    return redirect('pesanan:manageOrder')
+    return redirect('pesanan:feedbackOrder')
     
     

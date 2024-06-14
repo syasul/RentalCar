@@ -90,14 +90,18 @@ body {
     font-weight: 500;
 }
 
-.filter {
+.filter,
+.filter:focus,
+.filter:hover {
     background-color: rgb(127, 215, 199, 0.5);
     color: #7FD7C7;
     border-radius: 10px;
     font-weight: 600;
 }
 
-.btn-pdf {
+.btn-pdf,
+.btn-pdf:focus,
+.btn-pdf:hover {
     color: #C66D7D;
     border-radius: 10px;
     font-weight: 600;

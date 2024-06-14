@@ -73,19 +73,22 @@ def createMobil(request):
 
 def updateMobil(request, id):
     current_user = request.user
-    
+
     if not request.user.is_superuser:
         return redirect("user:loginAdmin")
-    
+
     mobil = get_object_or_404(Mobils, pk=id)
     if request.method == 'POST':
         mobil.name = request.POST.get('nameOfCar')
+        
+        # Check if new image files are provided
         if 'carImage1' in request.FILES:
             mobil.image1 = request.FILES['carImage1']
         if 'carImage2' in request.FILES:
             mobil.image2 = request.FILES['carImage2']
         if 'carImage3' in request.FILES:
             mobil.image3 = request.FILES['carImage3']
+
         mobil.stock = request.POST.get('stockCar')
         mobil.description = request.POST.get('carDesc')
         mobil.transmission = request.POST.get('transmission')
@@ -94,8 +97,9 @@ def updateMobil(request, id):
         mobil.pricePerDay = request.POST.get('carPrice')
         mobil.save()
         return redirect("mobil:masterMobil")
-    
+
     return redirect('mobil:masterMobil')
+
 
 def deleteMobil(request, id):
     current_user = request.user

@@ -26,7 +26,7 @@ def dashboard(request):
     if not request.user.is_superuser:
         return redirect("user:loginAdmin")
     
-    order_items = Order.objects.all().prefetch_related('orderitem_set__id_mobils')
+    order_items = Order.objects.all().prefetch_related('orderitem_set__id_mobils').order_by('-updated_at')
     
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
@@ -47,8 +47,6 @@ def dashboard(request):
     
     for order in order_items:
         order.grand_total = currency(order.grand_total)
-        for item in order.orderitem_set.all():
-            item.id_mobils.pricePerDay = currency(item.id_mobils.pricePerDay)
 
     context = {
         'order_items': order_items,
@@ -57,6 +55,8 @@ def dashboard(request):
         'user_count': user_count,
         'return_order_count': return_order_count,
         'income_count': income_counts,
+        'start_date': start_date,  # Mengirimkan nilai start_date ke template
+        'end_date': end_date,      # Mengirimkan nilai end_date ke template
     }
     
     return render(request, 'admin/dashboard.html', context)
@@ -64,6 +64,12 @@ def dashboard(request):
 def generate_pdf(request):
     template_path = 'admin/dashboard_pdf.html'
     orders = Order.objects.all()
+    start_date = request.GET.get('start_date')  # Mendapatkan start_date dari request
+    end_date = request.GET.get('end_date')      # Mendapatkan end_date dari request
+    if start_date and end_date:
+        orders = orders.filter(start_date__gte=start_date, end_date__lte=end_date)  # Menyaring data berdasarkan tanggal
+    
+    
     context = {'orders': orders}
     
     response = HttpResponse(content_type='application/pdf')
@@ -79,6 +85,7 @@ def generate_pdf(request):
     return response
 
 def Contact(request):
-    return render(request, 'user/contact.html')
+    current_user = request.user
+    return render(request, 'user/contact.html', {'current_user': current_user})
     
     
