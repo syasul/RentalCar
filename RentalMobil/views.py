@@ -3,6 +3,7 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from datetime import datetime
 from django.contrib import messages
 
 from pesanan.models import Order, ReturnOrder, OrderItem
@@ -34,13 +35,18 @@ def dashboard(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
     
-    if start_date >= end_date:
-        messages.error(request, 'Check-out date must be after check-in date.')
-        return redirect('dashboard')
-        
-        
-    
     if start_date and end_date:
+        try:
+            checkin = datetime.strptime(start_date, '%Y-%m-%d')
+            checkout = datetime.strptime(end_date, '%Y-%m-%d')
+        except ValueError:
+            messages.error(request, 'Invalid date format. Please use YYYY-MM-DD.')
+            return redirect('dashboard')
+
+        if checkin >= checkout:
+            messages.error(request, 'Check-out date must be after check-in date.')
+            return redirect('dashboard')
+        
         order_items = order_items.filter(start_date__gte=start_date, end_date__lte=end_date)
 
     mobils_count = Mobils.objects.count()
@@ -64,8 +70,8 @@ def dashboard(request):
         'user_count': user_count,
         'return_order_count': return_order_count,
         'income_count': income_counts,
-        'start_date': start_date,  # Mengirimkan nilai start_date ke template
-        'end_date': end_date,      # Mengirimkan nilai end_date ke template
+        'start_date': start_date,
+        'end_date': end_date,
     }
     
     return render(request, 'admin/dashboard.html', context)
