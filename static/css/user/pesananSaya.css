@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 main {
@@ -63,8 +64,7 @@ main {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
+
     flex-shrink: 0;
     /* Prevent footer from shrinking */
     background-color: #5FBDFF;

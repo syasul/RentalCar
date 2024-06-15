@@ -12,19 +12,20 @@ from .models import Mobils
 from testi.models import TestimonialRating
 
 # Create your views here.
+@login_required
 def masterMobil(request):
     current_user = request.user
     
-    if not request.user.is_superuser:
+    if not current_user.is_superuser:
         return redirect("user:loginAdmin")
         
-        
-    
     search_query = request.GET.get('search', '')
+    
     mobils = Mobils.objects.all().order_by('-updated_at')
 
     if search_query:
         mobils = mobils.filter(name__icontains=search_query)
+    
 
     for mobil in mobils:
         mobil.pricePerDay = currency(mobil.pricePerDay)
@@ -33,7 +34,8 @@ def masterMobil(request):
         'mobils': mobils,
         'search_query': search_query,
     }
-    return render(request, './admin/manageCar.html', context)
+    
+    return render(request, 'admin/manageCar.html', context)
 
 
 def createMobil(request):
