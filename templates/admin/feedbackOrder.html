@@ -6,9 +6,9 @@
 
 {% block contents %}
 {% include '../partials/navbarAdmin.html' %}
-{% include 'widgets/flasher.html' %}
-<div class="wrapper" style="margin-top:5%">
 
+<div class="wrapper" style="margin-top:5%">
+    {% include 'widgets/flasher.html' %}
     <!-- tabel -->
     <div class="tabel shadow">
         <div class="row">
@@ -62,16 +62,7 @@
                                             <span>No Image</span>
                                             {% endif %}
                                         </td>
-                                        <td class="text-center">
-                                            <form action="{% url 'pesanan:updateStatusFeedbackOrder' id_order=testimonial.id %}" method="POST">
-                                                {% csrf_token %}
-                                                <select class="form-select shadow-none" name="status" onchange="this.form.submit()">
-                                                    <option value="Belum Terkonfirmasi" {% if testimonial.status == 'Belum Terkonfirmasi' %} selected {% endif %}>Belum Terkonfirmasi</option>
-                                                    <option value="Terkonfirmasi" {% if testimonial.status == 'Terkonfirmasi' %} selected {% endif %}>Terkonfirmasi</option>
-                                                    <option value="Dikirim" {% if testimonial.status == 'Dikirim' %} selected {% endif %}>Dikirim</option>
-                                                </select>
-                                            </form>
-                                        </td>
+                                        
                                     </tr>
                                     {% endfor %}
                                     {% else %}

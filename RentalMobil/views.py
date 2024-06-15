@@ -3,8 +3,10 @@ from django.db.models import Sum
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.contrib import messages
 
 from pesanan.models import Order, ReturnOrder, OrderItem
+from django.contrib.auth.decorators import login_required
 from user.models import User
 from mobil.models import Mobils
 from testi.models import TestimonialRating
@@ -22,6 +24,7 @@ def home(request):
     
     return render(request, './user/home.html', {'current_user': current_user, 'mobils': mobils, 'ratings':ratings})
 
+@login_required
 def dashboard(request):
     if not request.user.is_superuser:
         return redirect("user:loginAdmin")
@@ -30,6 +33,12 @@ def dashboard(request):
     
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
+    
+    if start_date >= end_date:
+        messages.error(request, 'Check-out date must be after check-in date.')
+        return redirect('dashboard')
+        
+        
     
     if start_date and end_date:
         order_items = order_items.filter(start_date__gte=start_date, end_date__lte=end_date)
@@ -61,14 +70,16 @@ def dashboard(request):
     
     return render(request, 'admin/dashboard.html', context)
 
+@login_required
 def generate_pdf(request):
     template_path = 'admin/dashboard_pdf.html'
-    orders = Order.objects.all()
-    start_date = request.GET.get('start_date')  # Mendapatkan start_date dari request
+    orders = Order.objects.all().order_by('-updated_at')
+    
+    start_date = request.GET.get('start_date')  # Mendapatkan start_date dari requestat
     end_date = request.GET.get('end_date')      # Mendapatkan end_date dari request
+    
     if start_date and end_date:
         orders = orders.filter(start_date__gte=start_date, end_date__lte=end_date)  # Menyaring data berdasarkan tanggal
-    
     
     context = {'orders': orders}
     
@@ -82,6 +93,7 @@ def generate_pdf(request):
     
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    
     return response
 
 def Contact(request):

@@ -7,6 +7,7 @@
 {% block contents %}
 {% include '../partials/navbarAdmin.html' %}
 <div class="wrapper" style="margin-top:5%">
+    {% include 'widgets/flasher.html' %}
     <!-- Kartu Statistik -->
     <div class="row my-4">
         <!-- Total User -->
@@ -101,17 +102,20 @@
             <form method="GET" action="{% url 'dashboard' %}">
                 <div class="d-flex mb-3">
                     <div class="col-sm-2">
-                        <input type="date" class="form-control shadow-none" name="start_date" placeholder="Tanggal awal" required>
+                        <input type="date" class="form-control shadow-none" name="start_date" placeholder="Tanggal awal" value="{{ start_date|default_if_none:'' }}" required>
                     </div>
                     <div class="col-sm-2 mx-2">
-                        <input type="date" class="form-control shadow-none" name="end_date" placeholder="Tanggal akhir" required>
+                        <input type="date" class="form-control shadow-none" name="end_date" placeholder="Tanggal akhir" value="{{ end_date|default_if_none:'' }}" required>
                     </div>
                     <div class="col-sm-4 d-flex align-items-center pt-1">
                         <button class="btn shadow-none filter d-flex align-items-center" type="submit">
                             <i class="fa-solid fa-filter me-2"></i>Filter
                         </button>
-                        <a href="{% url 'generate_pdf' %}" class="btn shadow-none btn-pdf d-flex align-items-center ms-2">
+                        <a href="{% url 'generate_pdf' %}?start_date={{ start_date }}&end_date={{ end_date }}" class="btn shadow-none btn-pdf d-flex align-items-center ms-2">
                             <i class="fa-regular fa-file-pdf me-2"></i>PDF
+                        </a>
+                        <a href="{% url 'dashboard' %}" class="btn shadow-none btn-reset d-flex align-items-center ms-2">
+                            <i class="fa-solid fa-redo me-2"></i>Reset
                         </a>
                     </div>
                 </div>

@@ -98,7 +98,7 @@ def formCheckout(request, mobil_id):
             quantity=quantity
         )
 
-        mobils.stock - int(quantity)
+        mobils.stock -= int(quantity)
         mobils.save()
         
         request.session.pop('check_in', None)
@@ -115,6 +115,7 @@ def formCheckout(request, mobil_id):
         'price': price,
         'current_user': current_user,
         'check_in': check_in,
+        'quantity': quantity,
         'check_out': check_out,
         'total_price': currency(total_price)
     }
@@ -149,11 +150,15 @@ def manageOrder(request):
     if search_query:
         orders = orders.filter(id_user__username__icontains=search_query)
 
+    # Fetch related OrderItems
+    orders = orders.prefetch_related('orderitem_set')
+
     context = {
         'orders': orders,
         'search_query': search_query,
     }
     return render(request, 'admin/manageOrder.html', context)
+
 
 
 @login_required

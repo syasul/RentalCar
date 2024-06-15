@@ -7,10 +7,10 @@
 {% block contents %}
 {% include '../partials/navbarAdmin.html' %}
 <div class="wrapper" style="margin-top:5%">
-
+    {% include 'widgets/flasher.html' %}
     <!-- tabel -->
     <div class="tabel shadow">
-        {% include 'widgets/flasher.html' %}
+        
         <div class="row">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <h4 class="col-sm-2">Data</h4>
@@ -36,6 +36,7 @@
                                         <th class="text-center">Nama Penyewa</th>
                                         <th class="text-center">Check In</th>
                                         <th class="text-center">Check Out</th>
+                                        <th class="text-center">Quantity</th>
                                         <th class="text-center">Denda</th>
                                         <th class="text-center">Total Harga</th>
                                         <th class="text-center">Foto Transfer</th>
@@ -52,6 +53,12 @@
                                         <th class="text-center">{{ order.id_user.username }}</th>
                                         <td class="text-center">{{ order.start_date }}</td>
                                         <td class="text-center">{{ order.end_date }}</td>
+                                        <td class="text-center">
+                                            {% for item in order.orderitem_set.all %}
+                                                {{ item.quantity }}
+                                                {% if not forloop.last %} + {% endif %}
+                                            {% endfor %}
+                                        </td>
                                         <td class="text-center">{{ order.fine }}</td>
                                         <td class="text-center">{{ order.grand_total }}</td>
                                         <td class="text-center"><img src="{{ order.payment_receipt_image_path.url }}" alt="Product Image" style="width: 100px; height: 100px;" class="rounded"></td>
@@ -72,10 +79,9 @@
                                     {% endfor %}
                                     {% else %}
                                     <tr>
-                                        <td class="text-center" colspan="10">tidak ditemukan</td>
+                                        <td class="text-center" colspan="11">tidak ditemukan</td>
                                     </tr>
                                     {% endif %}
-                                    
                                 </tbody>
                             </table>
                         </div>

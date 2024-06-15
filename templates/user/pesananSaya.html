@@ -1,13 +1,12 @@
-    {% extends '../base.html' %}
-    {% load static %}
-    {% block headers %}
-    <link rel="stylesheet" href="{% static 'css/user/pesananSaya.css' %}">
-    {% endblock headers %}
+{% extends '../base.html' %}
+{% load static %}
+{% block headers %}
+<link rel="stylesheet" href="{% static 'css/user/pesananSaya.css' %}">
+{% endblock headers %}
+{% block contents %}
+{% include '../partials/navbarUser.html' %}
 
-    {% block contents %}
-    {% include '../partials/navbarUser.html' %}
-
-    <main class="container" style="margin-top:5%">
+<main class="container-fluid" style="margin-top:5%">
 
         {% if orders %}
         <div class="row d-flex justify-content-center">

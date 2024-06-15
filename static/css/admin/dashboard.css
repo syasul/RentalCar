@@ -107,3 +107,12 @@ body {
     font-weight: 600;
     background-color: rgb(198, 109, 125, 0.5);
 }
+
+.btn-reset,
+.btn-reset:focus,
+.btn-reset:hover {
+    color: #3ABEF9;
+    border-radius: 10px;
+    font-weight: 600;
+    background-color: rgb(58, 190, 249, 0.5);
+}
